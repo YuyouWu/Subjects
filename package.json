@@ -1,0 +1,19 @@
+{
+  "name": "subject",
+  "version": "1.0.0",
+  "description": "Aggregation of study materials for any subjects",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Yuyou Wu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "path": "^0.12.7",
+    "sequelize": "^3.15.0",
+    "sqlite3": "^3.1.1",
+    "underscore": "^1.8.3"
+  }
+}
