@@ -121,6 +121,40 @@ app.post('/courses', function (req,res){
 	});
 });
 
+//Edit existing course
+app.put('/courses/:id', function (req,res){
+	var courseID = parseInt(req.params.id, 10);
+	var body = _.pick(req.body, 'courseName', 'difficulty');
+	var attribute = {};
+
+	if(body.hasOwnProperty('courseName')){
+		attribute.courseName = body.courseName;
+	} 
+
+	if(body.hasOwnProperty('difficulty')){
+		attribute.difficulty = body.difficulty;
+	} 
+
+	db.course.findOne({
+		where: {
+			id: courseID
+			//userId:req.user.get('id')
+		}
+	}).then(function (course){
+		if(course){
+			course.update(attribute).then(function (course) {
+				res.json(course.toJSON());
+			}, function (e){
+				res.status(400).json(e);
+			});
+		} else {
+			res.status(404).send();
+		}
+	}, function (){
+		res.status(500).send(); 
+	});
+});
+
 //Delete existing course by ID
 app.delete('/courses/:id', function (req,res){
 	var courseID = parseInt(req.params.id, 10);
