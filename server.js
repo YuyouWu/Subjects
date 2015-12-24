@@ -73,7 +73,7 @@ app.post('/subjects', function (req,res){
 });
 
 ///////////////
-//Courses API// 
+//Courses API//
 ///////////////
 
 //Get all courses
@@ -174,6 +174,21 @@ app.delete('/courses/:id', function (req,res){
 	}, function (){
 		res.status(500).send();
 	})
+});
+
+////////////
+//User API//
+////////////
+
+//Create user
+app.post('/users', function (req,res){
+	var body = _.pick(req.body, 'email', 'password');
+
+	db.user.create(body).then(function (user){
+		res.json(user.toJSON());
+	}, function (e) {
+		res.status(400).json(e);
+	});
 });
 
 //Sync data to database
