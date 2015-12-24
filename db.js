@@ -25,8 +25,6 @@ db.Sequalize = Sequalize;
 
 //Associations
 db.subject.hasMany(db.course);
-db.course.belongsTo(db.user);
-db.course.belongsTo(db.subject);
 db.user.hasMany(db.course);
 
 module.exports = db;

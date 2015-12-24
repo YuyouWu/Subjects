@@ -23,6 +23,10 @@ app.get('/', function (req, res){
 	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
+///////////////
+//Subject API// 
+///////////////
+
 //Get all subjects
 app.get('/subjects', function (req, res){
 
@@ -35,8 +39,8 @@ app.get('/subjects', function (req, res){
 		};
 	}
 
-	db.subject.findAll({where: where}).then(function (subjects){
-		res.json(subjects);
+	db.subject.findAll({where: where}).then(function (subject){
+		res.json(subject);
 	}, function (e) {
 		res.status(500).send();
 	});
@@ -68,6 +72,75 @@ app.post('/subjects', function (req,res){
 	});
 });
 
+///////////////
+//Courses API// 
+///////////////
+
+//Get all courses
+app.get('/courses', function (req, res){
+
+	var query = req.query;
+	var where = {};
+
+	if (query.hasOwnProperty('courseName') && query.q.length > 0){
+		where.courseName = {
+			$like : '%' + query.q + '%'
+		};
+	}
+
+	db.course.findAll({where: where}).then(function (courses){
+		res.json(courses);
+	}, function (e) {
+		res.status(500).send();
+	});
+});
+
+//Get courses by ID
+app.get('/courses/:id', function (req,res){
+	var courseID = parseInt(req.params.id, 10);
+
+	db.course.findById(courseID).then(function (course){
+		if (!!course){
+			res.json(course.toJSON());
+		} else {
+			res.status(404).send();
+		}
+	}, function (e){
+		res.status(500).send();
+	});
+});
+
+//Add courses
+app.post('/courses', function (req,res){
+	var body = _.pick(req.body, 'courseName', 'difficulty');
+
+	db.course.create(body).then(function (course){
+		res.json(course.toJSON());
+	}, function (e){
+		res.status(400).json(e);
+	});
+});
+
+//Delete existing course by ID
+app.delete('/courses/:id', function (req,res){
+	var courseID = parseInt(req.params.id, 10);
+	db.course.destroy({
+		where: {
+			id: courseID
+			//userId: req.user.get('id')
+		}
+	}).then(function (rowsDeleted) {
+		if (rowsDeleted === 0){
+			res.status(404).json({
+				error: 'No course with id.'
+			})
+		} else {
+			res.status(204).send();
+		}
+	}, function (){
+		res.status(500).send();
+	})
+});
 
 //Sync data to database
 db.sequelize.sync().then(function (){
