@@ -10,8 +10,11 @@
   "author": "Yuyou Wu",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.2",
+    "crypto-js": "^3.1.5",
     "express": "^4.13.3",
+    "jsonwebtoken": "^5.4.1",
     "path": "^0.12.7",
     "sequelize": "^3.15.0",
     "sqlite3": "^3.1.1",
