@@ -1,82 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
 		<meta chatset = "UTF-8"/>
 		<title>Syllabus</title>
 
+		<!-- Bootstrap -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-		<style>
-			body {padding-top:50px;}
-		</style>
-
+		<!-- AngularJS -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"> </script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+
+		<!-- Controllers and Services -->
 		<script src="app.js"></script>
 		<script src="/service/subjectService.js"></script>
+		<script src="/service/userService.js"></script>
 	</head>
 
 	<!-- Login/Signup buttons -->
-	<div class="container-fluid btn-toolbar" > 
+	<div class="container-fluid btn-toolbar" ng-app="syllabus" ng-controller="userController as main"> 
 		<button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal">Sign up</button>
 
 		<button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
 
+		<!-- Signup modal -->
 		<div id="signupModal" class="modal fade" role="dialog" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">X</button>
-						<h3>Sign up</h3>
+						<h4>Sign up</h4>
 					</div>
 
 					<div class="modal-body">
-						<form method="post" action='' name="signup_form">
-							<div class="form-group">
-								<label for="email" class="control-label">Email:</label>
-								<input type="text" class="form-control" name="eid" id="email" placeholder="Email">
+						<form name="signup_form" ng-submit="main.createUser()">
+							<div class="form-group container-fluid">
+								<label class="control-label">Email:</label>
+								<input type="text" class="form-control" placeholder="Email" ng-model="main.userData.email">
 							</div>
-							<div class="form-group">
+							<div class="form-group container-fluid">
 								<label class="control-label">Password:</label>
-								<input type="password" class="form-control" name="passwd" placeholder="Password">
+								<input type="password" class="form-control" placeholder="Password" ng-model="main.userData.password">
+							</div>
+							<div class="form-group container-fluid">
+								<label class="control-label">Confirm Password:</label>
+								<input type="password" class="form-control" placeholder="Password" ng-model="main.userData.confirmPassword"> 
+							</div>
+							<div class="container-fluid">
+								<button type="submit" class="btn btn-primary">Sign up</button>
 							</div>
 						</form>
-					</div>
-
-					<div class="modal-footer"> 
-						<button type="submit" class="btn btn-primary">Sign up</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- Login modal -->
 		<div id="loginModal" class="modal fade" role="dialog" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">X</button>
-						<h3>Log in</h3>
+						<h4>Log in</h4>
 					</div>
 
 					<div class="modal-body">
 						<form method="post" action='' name="login_form">
-							<div class="form-group">
+							<div class="form-group container-fluid">
 								<label for="email" class="control-label">Email:</label>
 								<input type="text" class="form-control" name="eid" id="email" placeholder="Email">
 							</div>
-							<div class="form-group">
+							<div class="form-group container-fluid">
 								<label class="control-label">Password:</label>
 								<input type="password" class="form-control" name="passwd" placeholder="Password">
 							</div>
+							<div class="container-fluid">
+								<button type="submit" class="btn btn-primary">Log in</button>
+							</div>
 						</form>
-					</div>
-
-					<div class="modal-footer"> 
-						<button type="submit" class="btn btn-primary">Log in</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -84,14 +88,15 @@
 	</div>
 	
 
-	<body class ="container" ng-app="syllabus" ng-controller="mainController as main">
-
+	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
 		<!-- Title and Search bar -->
 		<div class="jumbotron"> 
 			<h1>Syllabus </h1>
+			<p>A crowdsourced learning guide for any subjects.</p>
+			<!-- form and button -->
 			<form class = "form-inline" ng-submit="main.searchSubject()"> 
 				
-				<input type ="text" class="form-control" placeholder="What will you teach yourself today?" size="35" ng-model="main.subjectData.name">
+				<input type ="text" class="form-control" placeholder="What will you learn today?" size="40" ng-model="main.searchKey">
 
 				<button type="submit" class="btn btn-primary"> Search </button>
 

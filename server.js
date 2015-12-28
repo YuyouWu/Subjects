@@ -183,6 +183,7 @@ app.delete('/courses/:id', function (req,res){
 
 //Create user
 app.post('/users', function (req,res){
+	console.log(req.body);
 	var body = _.pick(req.body, 'email', 'password');
 
 	db.user.create(body).then(function (user){
