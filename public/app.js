@@ -41,9 +41,14 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	vm.userData.loggedIn = false;
 	vm.userData.loggedOut = true;
 
-	//Check is user is logged in or logged out
-	vm.userData.loggedIn = Auth.isLoggedIn();
-	vm.userData.loggedOut = !vm.userData.loggedIn;
+	//Check if logged in or not
+	vm.isLoggedIn = function (){
+		if (Auth.isLoggedIn()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	//Create new user
 	vm.createUser = function (){
