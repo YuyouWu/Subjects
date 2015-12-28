@@ -1,5 +1,11 @@
-angular.module('syllabus',['subjectService' , 'userService'])
-.controller('subjectController', function (Subject, User){ 
+angular.module('syllabus',['subjectService' , 'userService', 'authService'])
+
+//Using config to add Authinterceptor to $httpProvider
+.config(function ($httpProvider){
+	$httpProvider.interceptors.push('AuthInterceptor');
+})
+
+.controller('subjectController', function (Subject, User, Auth, AuthToken, AuthInterceptor){ 
 
 	var vm = this;
 
@@ -20,7 +26,7 @@ angular.module('syllabus',['subjectService' , 'userService'])
 	}
 })
 
-.controller('userController', function (Subject, User){
+.controller('userController', function (Subject, User, Auth, AuthToken, AuthInterceptor){
 	var vm = this;
 
 	vm.userData = {};
@@ -33,9 +39,15 @@ angular.module('syllabus',['subjectService' , 'userService'])
 		if(vm.userData.password === vm.userData.confirmPassword){
 			User.create(vm.userData).success(function (data){
 				console.log(data);
-			})
+			});
 		} else {
-			console.log("Not matching password.")
+			console.log("Not matching password.");
 		}
+	}
+
+	vm.loginUser = function (){
+		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
+			console.log(data);
+		});
 	}
 });

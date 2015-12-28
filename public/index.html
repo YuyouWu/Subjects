@@ -18,6 +18,7 @@
 		<script src="app.js"></script>
 		<script src="/service/subjectService.js"></script>
 		<script src="/service/userService.js"></script>
+		<script src="/service/authService.js"></script>
 	</head>
 
 	<!-- Login/Signup buttons -->
@@ -68,14 +69,14 @@
 					</div>
 
 					<div class="modal-body">
-						<form method="post" action='' name="login_form">
+						<form name="login_form" ng-submit="main.loginUser()">
 							<div class="form-group container-fluid">
 								<label for="email" class="control-label">Email:</label>
-								<input type="text" class="form-control" name="eid" id="email" placeholder="Email">
+								<input type="text" class="form-control" ng-model="main.userData.email" placeholder="Email">
 							</div>
 							<div class="form-group container-fluid">
 								<label class="control-label">Password:</label>
-								<input type="password" class="form-control" name="passwd" placeholder="Password">
+								<input type="password" class="form-control" ng-model="main.userData.password">
 							</div>
 							<div class="container-fluid">
 								<button type="submit" class="btn btn-primary">Log in</button>
