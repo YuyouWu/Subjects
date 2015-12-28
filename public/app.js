@@ -22,10 +22,6 @@ angular.module('syllabus',['subjectService' , 'userService'])
 
 .controller('userController', function (Subject, User){
 	var vm = this;
-	vm.message = "Yo";
-	
-	vm.loginEmail = "";
-	vm.loginPassword = "";
 
 	vm.userData = {};
 	vm.userData.email = "";
