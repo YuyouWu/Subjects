@@ -23,9 +23,11 @@
 
 	<!-- Login/Signup buttons -->
 	<div class="container-fluid btn-toolbar" ng-app="syllabus" ng-controller="userController as main"> 
-		<button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal">Sign up</button>
+		<button ng-hide = "{{main.userData.loggedIn}}" ng-show = "{{main.userData.loggedOut}}" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal" >Sign up</button>
 
-		<button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
+		<button ng-hide = "{{main.userData.loggedIn}}" ng-show = "{{main.userData.loggedOut}}" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
+
+		<button ng-show = "{{main.userData.loggedIn}}" ng-hide = "{{main.userData.loggedOut}}" type="button" class="btn btn-default navbar-btn navbar-right" ng-click = "main.logoutUser()" >Log out</button>
 
 		<!-- Signup modal -->
 		<div id="signupModal" class="modal fade" role="dialog" tabindex="-1">
@@ -87,7 +89,6 @@
 			</div>
 		</div>
 	</div>
-	
 
 	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
 		<!-- Title and Search bar -->

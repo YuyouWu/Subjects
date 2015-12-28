@@ -1,5 +1,5 @@
 angular.module('authService',[])
-.factory('Auth', function ($http, $q, AuthToken){
+.factory('Auth', function ($http, $q, $location, AuthToken){
 	var authFactory = {};
 
 	authFactory.login = function (email, password){
@@ -14,9 +14,9 @@ angular.module('authService',[])
 		});
 	}
 
-	authFactory.logout = function (token){
-		AuthToken.setToken();
-		return $http.delete('/users/login', token).success(function (data){
+	authFactory.logout = function (){
+		return $http.delete('/users/login').success(function (data){
+			AuthToken.setToken();
 			console.log("User logged out.")
 		});
 	}

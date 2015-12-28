@@ -5,6 +5,8 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	$httpProvider.interceptors.push('AuthInterceptor');
 })
 
+//Display subject on index.html
+//Execute query for searching subject name
 .controller('subjectController', function (Subject, User, Auth, AuthToken, AuthInterceptor){ 
 
 	var vm = this;
@@ -26,6 +28,9 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	}
 })
 
+//Check if a user is logged in
+//Create new user
+//Login/Logout user
 .controller('userController', function (Subject, User, Auth, AuthToken, AuthInterceptor){
 	var vm = this;
 
@@ -33,6 +38,12 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	vm.userData.email = "";
 	vm.userData.password = "";
 	vm.userData.confirmPassword = "";
+	vm.userData.loggedIn = false;
+	vm.userData.loggedOut = true;
+
+	//Check is user is logged in or logged out
+	vm.userData.loggedIn = Auth.isLoggedIn();
+	vm.userData.loggedOut = !vm.userData.loggedIn;
 
 	//Create new user
 	vm.createUser = function (){
@@ -45,9 +56,21 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 		}
 	}
 
+	//Login user
 	vm.loginUser = function (){
 		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
 			console.log("logged in");
 		});
+		vm.userData.loggedIn = Auth.isLoggedIn();
+		vm.userData.loggedOut = !vm.userData.loggedIn;
+	}
+
+	//Logout user
+	vm.logoutUser = function (){
+		Auth.logout().success(function (data){
+			console.log("Logged out");
+		});
+		vm.userData.loggedIn = Auth.isLoggedIn();
+		vm.userData.loggedOut = !vm.userData.loggedIn;
 	}
 });
