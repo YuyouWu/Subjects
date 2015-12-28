@@ -47,7 +47,7 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 
 	vm.loginUser = function (){
 		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
-			console.log(data);
+			console.log("logged in");
 		});
 	}
 });

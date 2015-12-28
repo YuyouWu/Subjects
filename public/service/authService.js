@@ -8,9 +8,9 @@ angular.module('authService',[])
 		return $http.post('/users/login', {
 			email: email,
 			password: password
-		}).success(function (data){
-			AuthToken.setToken(data.token);
-			return data;
+		}).success(function (token){
+			AuthToken.setToken(token);
+			return token;
 		});
 	}
 
@@ -56,7 +56,6 @@ angular.module('authService',[])
 })
 
 .factory('AuthInterceptor', function ($q, $location, AuthToken){
-	console.log('Yo');
 	var interceptorFactory = {};
 
 	//this will happen on all HTTP requests
@@ -64,7 +63,7 @@ angular.module('authService',[])
 		var token = AuthToken.getToken();
 		//if token exist, set it to Auth header
 		if (token){
-			config.headers ['Auth'] = token;
+			config.headers['Auth'] = token;
 		}
 		return config;
 	}
