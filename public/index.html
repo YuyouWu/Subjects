@@ -39,7 +39,7 @@
 					</div>
 
 					<div class="modal-body">
-						<form name="signup_form" ng-submit="main.createUser()">
+						<form name="signup_form">
 							<div class="form-group container-fluid">
 								<label class="control-label">Email:</label>
 								<input type="text" class="form-control" placeholder="Email" ng-model="main.userData.email">
@@ -52,10 +52,10 @@
 								<label class="control-label">Confirm Password:</label>
 								<input type="password" class="form-control" placeholder="Password" ng-model="main.userData.confirmPassword"> 
 							</div>
-							<div class="container-fluid">
-								<button type="submit" class="btn btn-primary">Sign up</button>
-							</div>
 						</form>
+					</div>
+					<div class = "modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="main.createUser()">Sign up</button>
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 					</div>
 
 					<div class="modal-body">
-						<form name="login_form" ng-submit="main.loginUser()">
+						<form name="login_form">
 							<div class="form-group container-fluid">
 								<label for="email" class="control-label">Email:</label>
 								<input type="text" class="form-control" ng-model="main.userData.email" placeholder="Email">
@@ -80,10 +80,10 @@
 								<label class="control-label">Password:</label>
 								<input type="password" class="form-control" ng-model="main.userData.password" placeholder="Password">
 							</div>
-							<div class="container-fluid">
-								<button type="submit" class="btn btn-primary">Log in</button>
-							</div>
 						</form>
+					</div>
+					<div class = "modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="main.loginUser()">Log in</button>
 					</div>
 				</div>
 			</div>

@@ -38,8 +38,6 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	vm.userData.email = "";
 	vm.userData.password = "";
 	vm.userData.confirmPassword = "";
-	vm.userData.loggedIn = false;
-	vm.userData.loggedOut = true;
 
 	//Check if logged in or not
 	vm.isLoggedIn = function (){
@@ -66,8 +64,6 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
 			console.log("logged in");
 		});
-		vm.userData.loggedIn = Auth.isLoggedIn();
-		vm.userData.loggedOut = !vm.userData.loggedIn;
 	}
 
 	//Logout user
