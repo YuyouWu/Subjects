@@ -1,3 +1,19 @@
 .center-text {
-    text-align:center
+    text-align:center;
+}
+
+.vertical-center{
+	min-height:100vh;
+	margin:0;
+	display: flex;
+	align-items:center;
+}
+
+.horizontal-center{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+p.p-width {
+    width: 550px;
 }

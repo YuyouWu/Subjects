@@ -6,7 +6,7 @@ angular.module('userService',[])
 	users.create = function (userData){
 		return $http.post('/users', userData);
 	}
-
+	
 	users.login = function (){
 		return $http.post('/users/login');
 	}

@@ -26,6 +26,16 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 			vm.subjectData = data;
 		});
 	}
+
+	vm.newSubject = {};
+	vm.newSubject.subjectName = "";
+	//create new subject
+	vm.createSubject = function (){
+		console.log("here");
+		Subject.create(vm.newSubject).success(function (data){
+			console.log(data);
+		})
+	}
 })
 
 //Check if a user is logged in
@@ -82,4 +92,8 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 			
 		});
 	}
+})
+
+.controller('courseController', function (){
+
 });

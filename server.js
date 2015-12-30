@@ -214,7 +214,7 @@ app.post('/users/login', function (req, res) {
 });
 
 //Logout user
-app.delete('/users/login', middleware.requireAuthentication, function (req, res) {
+app.delete('/users/logout', middleware.requireAuthentication, function (req, res) {
 	req.token.destroy().then(function () {
 		res.status(204).send();
 	}).catch(function () {

@@ -15,7 +15,7 @@ angular.module('authService',[])
 	}
 
 	authFactory.logout = function (){
-		return $http.delete('/users/login').success(function (data){
+		return $http.delete('/users/logout').success(function (data){
 			AuthToken.setToken();
 		});
 	}

@@ -23,11 +23,14 @@
 	</head>
 
 	<!-- Login/Signup buttons -->
+	<!-- Drop down user menu -->
+	<!-- subject request -->
 	<div class="container-fluid btn-toolbar" ng-app="syllabus" ng-controller="userController as main"> 
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal" >Sign up</button>
 
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
 
+		<!-- Drop down user menu -->
 		<div class ="dropdown navbar-right" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()">
 			<button type="button" class="btn btn-default navbar-btn dropdown-toggle"  data-toggle="dropdown" aria-expanded="true"> 
 				<span class="glyphicon glyphicon-user"></span>
@@ -35,6 +38,8 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
+				<li><a href="#">Profile</a></li>
+				<li><a href="/newSubject.html">Create subject</a></li>
 				<li role="separator" class="divider"></li>
 				<li><a ng-click = "main.logoutUser()">Log out</a></li>
 			</ul>
