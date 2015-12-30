@@ -28,7 +28,17 @@
 
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
 
-		<button ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" ng-click = "main.logoutUser()" >Log out</button>
+		<div class ="dropdown navbar-right" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()">
+			<button type="button" class="btn btn-default navbar-btn dropdown-toggle"  data-toggle="dropdown" aria-expanded="true"> 
+				<span class="glyphicon glyphicon-user"></span>
+					User 
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
+				<li role="separator" class="divider"></li>
+				<li><a ng-click = "main.logoutUser()">Log out</a></li>
+			</ul>
+		</div>
 
 		<!-- Signup modal -->
 		<div id="signupModal" class="modal fade" role="dialog" tabindex="-1">
@@ -91,6 +101,7 @@
 		</div>
 	</div>
 
+	<!--Search bar and subjects -->
 	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
 		<!-- Title and Search bar -->
 		<div class="jumbotron"> 
@@ -112,7 +123,7 @@
 				<h2>Subjects</h2>
 			</div>
 		</div>
-		<div class = "row">
+		<div class = "row center-text">
 			<div class = "col-xs-6 col-sm-3" ng-repeat="subject in main.subjectData"> 
 				<button type="button" class="btn btn-link"> 
 					<h3>{{subject.subjectName}}</h3>
