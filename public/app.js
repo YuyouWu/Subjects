@@ -52,11 +52,12 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	vm.createUser = function (){
 		if(vm.userData.password === vm.userData.confirmPassword){
 			User.create(vm.userData).success(function (data){
-				$('#signupModal').modal('hide');
 				//Clear userData
 				vm.userData.email = "";
 				vm.userData.password = "";
 				vm.userData.confirmPassword = "";
+				//hide modal
+				$('#signupModal').modal('hide');
 			});
 		} else {
 			console.log("Not matching password.");
@@ -66,19 +67,19 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 	//Login user
 	vm.loginUser = function (){
 		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
-			console.log("logged in");
-			$('#loginModal').modal('hide');
 			//Clear userData
 			vm.userData.email = "";
 			vm.userData.password = "";
 			vm.userData.confirmPassword = "";
+			//hide modal
+			$('#loginModal').modal('hide');
 		});
 	}
 
 	//Logout user
 	vm.logoutUser = function (){
 		Auth.logout().success(function (data){
-			console.log("Logged out");
+			
 		});
 	}
 });
