@@ -7,7 +7,7 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 
 //Display subject on index.html
 //Execute query for searching subject name
-.controller('subjectController', function (Subject, User, Auth, AuthToken, AuthInterceptor){ 
+.controller('subjectController', function (Subject, User, Auth, AuthToken, AuthInterceptor, $window){ 
 
 	var vm = this;
 
@@ -27,14 +27,19 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 		});
 	}
 
+	//create new subject
 	vm.newSubject = {};
 	vm.newSubject.subjectName = "";
-	//create new subject
+	vm.newSubject.message = "";
 	vm.createSubject = function (){
 		console.log("here");
 		Subject.create(vm.newSubject).success(function (data){
 			console.log(data);
-		})
+			vm.newSubject.message = "New subject request has been submitted. "
+		}).error (function (e){
+			console.log(e);
+			vm.newSubject.message = "Error. Check if your subject name is the same with any existing subjects."
+		});
 	}
 })
 

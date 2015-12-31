@@ -73,6 +73,27 @@ app.post('/subjects', middleware.requireAuthentication, function (req,res){
 	});
 });
 
+//Delete subjects
+app.delete('/subjects/:id', function (req,res){
+	var subjectID = parseInt(req.params.id, 10);
+	db.subject.destroy({
+		where: {
+			id: subjectID
+			//Add admin permission
+		}
+	}).then(function (rowsDeleted) {
+		if (rowsDeleted === 0){
+			res.status(404).json({
+				error: 'No course with id.'
+			})
+		} else {
+			res.status(204).send();
+		}
+	}, function (){
+		res.status(500).send();
+	});
+});
+
 ///////////////
 //Courses API//
 ///////////////
@@ -174,7 +195,7 @@ app.delete('/courses/:id', function (req,res){
 		}
 	}, function (){
 		res.status(500).send();
-	})
+	});
 });
 
 ////////////

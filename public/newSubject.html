@@ -34,14 +34,19 @@
 			<div class="jumbotron horizontal-center">
 				<h2 class="center-text">New Subject Request</h2>
 				<p class="p-width">Please check existing subjects before requesting a new one. New subject will be under review for two business days.</p>
-				<form class = "form-inline" ng-submit="main.createSubject()"> 
-					<input type ="text" class="form-control" placeholder="Subject Name" size="50" ng-model="main.newSubject.subjectName">
-					<button type="submit" class="btn btn-primary"> Request </button>
+
+				<input type ="text" class="form-control" placeholder="Subject Name" ng-model="main.newSubject.subjectName">
+
+				<div class = "center-text" style="padding-top:10px">
+					<button class="btn btn-primary" ng-click="main.createSubject()"> Request </button>
 					<button class="btn btn-default" onclick="goBack()"> Back </button>
-				</form>
+				</div>
+
+				<div style="padding-top:10px">
+					<p class="center-text p-width">{{main.newSubject.message}}</p>
+				</div>
 			</div>
 		</div>
 	</body>
 
-
-	</html>
+</html>
