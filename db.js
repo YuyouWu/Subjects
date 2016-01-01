@@ -18,6 +18,7 @@ var db = {};
 
 //Importing models
 db.subject = sequelize.import(__dirname + '/models/subject.js');
+db.subjectReq = sequelize.import(__dirname + '/models/subjectReq.js');
 db.course = sequelize.import(__dirname + '/models/course.js');
 db.user = sequelize.import(__dirname + '/models/user.js');
 db.token = sequelize.import(__dirname + '/models/token.js');

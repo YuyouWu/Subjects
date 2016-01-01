@@ -27,12 +27,12 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService'])
 		});
 	}
 
-	//create new subject
+	//request new subject
 	vm.newSubject = {};
-	vm.newSubject.subjectName = "";
+	vm.newSubject.subjectNameReq = "";
 	vm.newSubject.message = "";
-	vm.createSubject = function (){
-		console.log("here");
+	vm.requestSubject = function (){
+		console.log(vm.newSubject.subjectNameReq);
 		Subject.create(vm.newSubject).success(function (data){
 			console.log(data);
 			vm.newSubject.message = "New subject request has been submitted. "

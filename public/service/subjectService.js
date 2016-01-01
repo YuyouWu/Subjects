@@ -13,9 +13,9 @@ angular.module('subjectService',[])
 		return $http.get('/subjects?q=' + searchKey);
 	}
 
-	//create new subject
-	subjects.create = function (subjectName){
-		return $http.post('/subjects', subjectName);
+	//Request new subject
+	subjects.create = function (subjectNameReq){
+		return $http.post('/subjects', subjectNameReq);
 	}
 
 	return subjects;

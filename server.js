@@ -62,11 +62,12 @@ app.get('/subjects/:id', function (req,res){
 	});
 });
 
-//Add subjects
+//Request subjects
 app.post('/subjects', middleware.requireAuthentication, function (req,res){
-	var body = _.pick(req.body, 'subjectName');
+	var body = _.pick(req.body, 'subjectNameReq');
 
-	db.subject.create(body).then(function (subject){
+	//Post name in subjectReq table
+	db.subjectReq.create(body).then(function (subject){
 		res.json(subject.toJSON());
 	}, function (e){
 		res.status(400).json(e);
