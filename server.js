@@ -24,9 +24,9 @@ app.get('/', function (req, res){
 	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-///////////////
-//Subject API// 
-///////////////
+
+//SUBJECT API ======================
+//==================================
 
 //Get all subjects
 app.get('/subjects', function (req, res){
@@ -95,9 +95,8 @@ app.delete('/subjects/:id', function (req,res){
 	});
 });
 
-///////////////
-//Courses API//
-///////////////
+//COURSES API ======================
+//==================================
 
 //Get all courses
 app.get('/courses', function (req, res){
@@ -199,9 +198,8 @@ app.delete('/courses/:id', function (req,res){
 	});
 });
 
-////////////
-//User API//
-////////////
+//USER API =========================
+//==================================
 
 //Create user
 app.post('/users', function (req,res){
@@ -245,6 +243,7 @@ app.delete('/users/logout', middleware.requireAuthentication, function (req, res
 });
 
 //Sync data to database
+//Start the server
 db.sequelize.sync().then(function (){
 	app.listen(PORT, function(){
 		console.log('Express listening on port ' + PORT + '.');

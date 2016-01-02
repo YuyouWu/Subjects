@@ -1,5 +1,5 @@
 	<!--Search bar and subjects -->
-	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
+	<body class ="container" ng-app="syllabus">
 		<!-- Title and Search bar -->
 		<div class="jumbotron"> 
 			<h1>Syllabus </h1>
@@ -22,7 +22,7 @@
 		</div>
 		<div class = "row center-text">
 			<div class = "col-xs-6 col-sm-3" ng-repeat="subject in main.subjectData"> 
-				<a href ='/subject/{{subject.id}}'>
+				<a href ='#/subject/{{subject.id}}'>
 					<h3>{{subject.subjectName}}</h3>
 				</a>
 			</div>
