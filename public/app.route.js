@@ -16,5 +16,5 @@ angular.module('appRouter',['ngRoute'])
             controllerAs: 'main'
 		});
 
-	//$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode(true);
 })

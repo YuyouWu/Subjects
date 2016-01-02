@@ -19,12 +19,6 @@ app.use(express.static(__dirname + '/public'));
 var subjects = [];
 var courses = [];
 
-//Send index html when request from browser
-app.get('/', function (req, res){
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
-
 //SUBJECT API ======================
 //==================================
 
@@ -240,6 +234,11 @@ app.delete('/users/logout', middleware.requireAuthentication, function (req, res
 	}).catch(function () {
 		res.status(500).send();
 	});
+});
+
+//Send index html when request from browser
+app.get('*', function (req, res){
+	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 //Sync data to database
