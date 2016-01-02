@@ -1,24 +1,8 @@
-angular.module('syllabus',['subjectService' , 'userService', 'authService','ngRoute'])
-
-//Using config to add Authinterceptor to $httpProvider
-.config(function ($httpProvider, $routeProvider, $locationProvider){
-	$httpProvider.interceptors.push('AuthInterceptor');
-	$routeProvider
-		.when('/',{
-			templateUrl: '/home.html',
-			controller  : 'subjectController',
-            controllerAs: 'main'
-		}).when('/newSubject',{
-			templateUrl: '/newSubject.html',
-			controller  : 'subjectController',
-            controllerAs: 'main'
-		});
-	$locationProvider.html5Mode(true);
-})
+angular.module('syllabus',['subjectService' , 'userService', 'authService','appRouter'])
 
 //Display subject on index.html
 //Execute query for searching subject name
-.controller('subjectController', function (Subject, User, Auth, AuthToken, AuthInterceptor, $window){ 
+.controller('subjectController', function (Subject, $window, $location, $routeParams){ 
 
 	var vm = this;
 
@@ -52,12 +36,32 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService','ngRo
 			vm.newSubject.message = "Error. Check if your subject name is the same with any existing subjects."
 		});
 	}
+
+	//Get subject by ID
+	vm.currentSubject = {};
+	vm.getSubject = function(subjectID){
+		Subject.getSubject(subjectID).success(function (data){
+			vm.currentSubject = data;
+			console.log(vm.currentSubject);
+			//$location.path('/subject/' + data.id);
+			//$window.location.href = '/subject/' + data.id;
+		});
+	}
+
+	//Reset subject after navigating 
+	if($routeParams.id){
+		vm.subjectID = $routeParams.id;
+		console.log(vm.subjectID);
+		Subject.getSubject(vm.subjectID).success(function (data){
+			vm.currentSubject = data;
+		});
+	}
 })
 
 //Check if a user is logged in
 //Create new user
 //Login/Logout user
-.controller('userController', function (Subject, User, Auth, AuthToken, AuthInterceptor){
+.controller('userController', function (Subject, User, Auth){
 	var vm = this;
 
 	vm.userData = {};
