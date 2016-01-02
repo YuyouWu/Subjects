@@ -1,8 +1,19 @@
-angular.module('syllabus',['subjectService' , 'userService', 'authService'])
+angular.module('syllabus',['subjectService' , 'userService', 'authService','ngRoute'])
 
 //Using config to add Authinterceptor to $httpProvider
-.config(function ($httpProvider){
+.config(function ($httpProvider, $routeProvider, $locationProvider){
 	$httpProvider.interceptors.push('AuthInterceptor');
+	$routeProvider
+		.when('/',{
+			templateUrl: '/home.html',
+			controller  : 'subjectController',
+            controllerAs: 'main'
+		}).when('/newSubject',{
+			templateUrl: '/newSubject.html',
+			controller  : 'subjectController',
+            controllerAs: 'main'
+		});
+	$locationProvider.html5Mode(true);
 })
 
 //Display subject on index.html

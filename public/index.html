@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="syllabus">
 
 	<head>
 		<meta chatset = "UTF-8"/>
 		<title>Syllabus</title>
-
+		<base href="/">
 		<!-- Bootstrap & css-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
@@ -22,10 +22,11 @@
 		<script src="/service/authService.js"></script>
 	</head>
 
+<body class = "container">
 	<!-- Login/Signup buttons -->
 	<!-- Drop down user menu -->
 	<!-- subject request -->
-	<div class="container-fluid btn-toolbar" ng-app="syllabus" ng-controller="userController as main"> 
+	<div class="container-fluid btn-toolbar" ng-controller="userController as main"> 
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal" >Sign up</button>
 
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
@@ -39,7 +40,7 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
 				<li><a href="#">Profile</a></li>
-				<li><a href="/newSubject.html">Create subject</a></li>
+				<li><a href="/newSubject">Create subject</a></li>
 				<li role="separator" class="divider"></li>
 				<li><a ng-click = "main.logoutUser()">Log out</a></li>
 			</ul>
@@ -106,34 +107,8 @@
 		</div>
 	</div>
 
-	<!--Search bar and subjects -->
-	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
-		<!-- Title and Search bar -->
-		<div class="jumbotron"> 
-			<h1>Syllabus </h1>
-			<p>A crowdsourced learning guide for any subjects.</p>
-			<!-- form and button -->
-			<form class = "form-inline" ng-submit="main.searchSubject()"> 
-				
-				<input type ="text" class="form-control" placeholder="What will you learn today?" size="55" ng-model="main.searchKey">
-
-				<button type="submit" class="btn btn-primary"> Search </button>
-
-			</form>
-		</div>
-
-		<!-- List all courses -->
-		<div class = "row">
-			<div class = "center-text">
-				<h2>Subjects</h2>
-			</div>
-		</div>
-		<div class = "row center-text">
-			<div class = "col-xs-6 col-sm-3" ng-repeat="subject in main.subjectData"> 
-				<button type="button" class="btn btn-link"> 
-					<h3>{{subject.subjectName}}</h3>
-				</button>
-			</div>
-		</div>
-	</body>
+		<main>
+			<div ng-view></div>
+		</main>
+</body>
 </html>

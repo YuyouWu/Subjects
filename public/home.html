@@ -1,0 +1,30 @@
+	<!--Search bar and subjects -->
+	<body class ="container" ng-app="syllabus" ng-controller="subjectController as main">
+		<!-- Title and Search bar -->
+		<div class="jumbotron"> 
+			<h1>Syllabus </h1>
+			<p>A crowdsourced learning guide for any subjects.</p>
+			<!-- form and button -->
+			<form class = "form-inline" ng-submit="main.searchSubject()"> 
+				
+				<input type ="text" class="form-control" placeholder="What will you learn today?" size="55" ng-model="main.searchKey">
+
+				<button type="submit" class="btn btn-primary"> Search </button>
+
+			</form>
+		</div>
+
+		<!-- List all courses -->
+		<div class = "row">
+			<div class = "center-text">
+				<h2>Subjects</h2>
+			</div>
+		</div>
+		<div class = "row center-text">
+			<div class = "col-xs-6 col-sm-3" ng-repeat="subject in main.subjectData"> 
+				<button type="button" class="btn btn-link"> 
+					<h3>{{subject.subjectName}}</h3>
+				</button>
+			</div>
+		</div>
+	</body>
