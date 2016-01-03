@@ -29,8 +29,11 @@
 	<!-- Drop down user menu -->
 	<!-- subject request -->
 	<div class="container-fluid btn-toolbar" ng-controller="userController as main"> 
+		<!-- Home buttons -->
+		<a class="btn btn-default navbar-btn navbar-left" href="/" role="button">Home</a>
+		<!-- Signup buttons -->
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal" >Sign up</button>
-
+		<!-- Login buttons -->
 		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
 
 		<!-- Drop down user menu -->
