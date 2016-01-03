@@ -130,9 +130,43 @@ app.get('/courses/:id', function (req,res){
 app.get('/courses/sub/:id', function (req,res){
 	var ID = parseInt(req.params.id, 10);
 	db.course.findAll({
-		
-			where: {subjectID: ID}
-		
+		where: {subjectID: ID}
+	}).then(function (courses){
+		res.json(courses);
+	}, function (e){
+		res.status(500).send();
+	});
+});
+
+//Get courses by subjectID and Beginner difficulty
+app.get('/courses/b/:id', function (req, res){
+	var ID = parseInt(req.params.id, 10);
+	db.course.findAll({
+		where: {subjectID: ID, difficulty: 'Beginner'}
+	}).then(function (courses){
+		res.json(courses);
+	}, function (e){
+		res.status(500).send();
+	});
+});
+
+//Get courses by subjectID and Intermediate difficulty
+app.get('/courses/i/:id', function (req, res){
+	var ID = parseInt(req.params.id, 10);
+	db.course.findAll({
+		where: {subjectID: ID, difficulty: 'Intermediate'}
+	}).then(function (courses){
+		res.json(courses);
+	}, function (e){
+		res.status(500).send();
+	});
+});
+
+//Get courses by subjectID and Advance difficulty
+app.get('/courses/a/:id', function (req, res){
+	var ID = parseInt(req.params.id, 10);
+	db.course.findAll({
+		where: {subjectID: ID, difficulty: 'Advance'}
 	}).then(function (courses){
 		res.json(courses);
 	}, function (e){
@@ -142,7 +176,7 @@ app.get('/courses/sub/:id', function (req,res){
 
 //Add courses
 app.post('/courses', function (req,res){
-	var body = _.pick(req.body, 'courseName', 'difficulty', 'subjectID');
+	var body = _.pick(req.body, 'courseName', 'courseLink', 'difficulty', 'subjectID');
 
 	db.course.create(body).then(function (course){
 		res.json(course.toJSON());

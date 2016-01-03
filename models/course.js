@@ -9,6 +9,14 @@ module.exports = function (sequelize, DataTypes) {
 			}
 		},
 
+		courseLink:{
+			type: DataTypes.STRING,
+			allowNull:false,
+			validate:{
+				notEmpty: true
+			}
+		},
+
 		difficulty:{
 			type: DataTypes.STRING,
 			allowNull:false

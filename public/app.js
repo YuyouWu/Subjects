@@ -1,4 +1,4 @@
-angular.module('syllabus',['subjectService' , 'userService', 'authService','appRouter'])
+angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'authService','appRouter'])
 
 //Display subject on index.html
 //Execute query for searching subject name
@@ -105,15 +105,31 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService','appR
 	}
 })
 
-.controller('courseController', function ($routeParams, Subject){
+.controller('courseController', function ($routeParams, Subject, Course){
 	var vm = this;
 	//Reset subject after navigating 
 	vm.currentSubject = {};
 	if($routeParams.id){
 		vm.subjectID = $routeParams.id;
-		console.log(vm.subjectID);
 		Subject.getSubject(vm.subjectID).success(function (data){
 			vm.currentSubject = data;
 		});
 	}
+
+	//Get courses by subjectID and defficulty
+	vm.beginnerCourses=[];
+	vm.intermediateCourses=[];
+	vm.advanceCourses=[];
+	//Beginner
+	Course.bCourse(vm.subjectID).success(function (data){
+		vm.beginnerCourses = data;
+	});
+	//Intermediate
+	Course.iCourse(vm.subjectID).success(function (data){
+		vm.intermediateCourses = data;
+	});
+	//Advance
+	Course.aCourse(vm.subjectID).success(function (data){
+		vm.advanceCourses = data;
+	});
 });
