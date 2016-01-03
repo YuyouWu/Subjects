@@ -12,6 +12,11 @@ module.exports = function (sequelize, DataTypes) {
 		difficulty:{
 			type: DataTypes.STRING,
 			allowNull:false
+		},
+
+		subjectID: {
+			type: DataTypes.INTEGER,
+			allowNull:false
 		}
 	});
 };

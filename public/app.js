@@ -47,15 +47,6 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService','appR
 			//$window.location.href = '/subject/' + data.id;
 		});
 	}
-
-	//Reset subject after navigating 
-	if($routeParams.id){
-		vm.subjectID = $routeParams.id;
-		console.log(vm.subjectID);
-		Subject.getSubject(vm.subjectID).success(function (data){
-			vm.currentSubject = data;
-		});
-	}
 })
 
 //Check if a user is logged in
@@ -114,6 +105,15 @@ angular.module('syllabus',['subjectService' , 'userService', 'authService','appR
 	}
 })
 
-.controller('courseController', function (){
-
+.controller('courseController', function ($routeParams, Subject){
+	var vm = this;
+	//Reset subject after navigating 
+	vm.currentSubject = {};
+	if($routeParams.id){
+		vm.subjectID = $routeParams.id;
+		console.log(vm.subjectID);
+		Subject.getSubject(vm.subjectID).success(function (data){
+			vm.currentSubject = data;
+		});
+	}
 });

@@ -126,9 +126,23 @@ app.get('/courses/:id', function (req,res){
 	});
 });
 
+//Get courses by SubjectID
+app.get('/courses/sub/:id', function (req,res){
+	var ID = parseInt(req.params.id, 10);
+	db.course.findAll({
+		
+			where: {subjectID: ID}
+		
+	}).then(function (courses){
+		res.json(courses);
+	}, function (e){
+		res.status(500).send();
+	});
+});
+
 //Add courses
 app.post('/courses', function (req,res){
-	var body = _.pick(req.body, 'courseName', 'difficulty');
+	var body = _.pick(req.body, 'courseName', 'difficulty', 'subjectID');
 
 	db.course.create(body).then(function (course){
 		res.json(course.toJSON());

@@ -12,7 +12,7 @@ angular.module('appRouter',['ngRoute'])
             controllerAs: 'main'
 		}).when('/subject/:id',{
 			templateUrl: '/subject.html',
-			controller  : 'subjectController',
+			controller  : 'courseController',
             controllerAs: 'main'
 		});
 
