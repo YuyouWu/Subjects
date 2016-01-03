@@ -132,4 +132,16 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	Course.aCourse(vm.subjectID).success(function (data){
 		vm.advanceCourses = data;
 	});
+
+	vm.newCourse = {};
+	vm.newCourse.subjectID = vm.subjectID;
+	vm.createNewCourse = function (){
+		console.log("here");
+		Course.create(vm.newCourse).success(function (data){
+			console.log(data);
+			$('#newCourseModal').modal('hide');
+		}).error(function (e){
+			console.log(e);
+		});
+	}
 });

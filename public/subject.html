@@ -1,36 +1,75 @@
 <body class ="container" ng-app="syllabus">
 	<div class="jumbotron"> 
 		<h1>{{main.currentSubject.subjectName}}</h1>
+		<!--Post New Course Button-->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newCourseModal">Post New Course</button>
 	</div>
 
+	<!--New Course Modal-->
+	<div id="newCourseModal" class="modal fade" role="dialog" ng-controller="courseController as main">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>Post New Course</h2>
+				</div>
+				<div class="modal-body">
+					<div class="form-group container-fluid">
+						<label class="control-label">Course Name:</label>
+						<input type="text" class="form-control" placeholder="Course Name" ng-model = "main.newCourse.courseName">
+					</div>
+					<div class="form-group container-fluid">
+						<label class="control-label">Course Link:</label>
+						<input type="text" class="form-control" placeholder="example.com" ng-model = "main.newCourse.courseLink">
+					</div>
+					<div class="form-group container-fluid">
+						<label class="control-label">Difficulty: </label>
+						<label class="radio-inline"><input type="radio" name="optradio" value ="Beginner" ng-model = "main.newCourse.difficulty">Beginner</label>
+						<label class="radio-inline"><input type="radio" name="optradio" value ="Intermediate" ng-model = "main.newCourse.difficulty">Intermediate</label>
+						<label class="radio-inline"><input type="radio" name="optradio" value ="Advance" ng-model = "main.newCourse.difficulty">Advance</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click = "main.createNewCourse()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Beginner Courses-->
 	<div>
 		<h2>Beginner</h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr ng-repeat="course in main.beginnerCourses">
-					<td>{{course.courseName}}</td>
+					<td><a href="{{course.courseLink}}" target="_blank">
+						{{course.courseName}}
+					</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
+	<!--Intermediate Courses-->
 	<div>
 		<h2>Intermediate</h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr ng-repeat="course in main.intermediateCourses">
-					<td>{{course.courseName}}</td>
+					<td><a href="{{course.courseLink}}" target="_blank">
+						{{course.courseName}}
+					</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
+	<!--Advance Courses-->
 	<div>
 		<h2>Advance</h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr ng-repeat="course in main.advanceCourses">
-					<td>{{course.courseName}}</td>
+					<td><a href="{{course.courseLink}}" target="_blank">
+						{{course.courseName}}
+					</a></td>
 				</tr>
 			</tbody>
 		</table>
