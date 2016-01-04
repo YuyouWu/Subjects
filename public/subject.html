@@ -38,54 +38,22 @@
 		</div>
 	</div>
 
-	<div class= "container-fluid">
-		<!--Beginner Courses-->
-		<div>
-			<h2>Beginner</h2>
-			<div class = "table-height">
-				<table class="table table-hover">
-					<tbody>
-						<tr ng-repeat="course in main.beginnerCourses">
-							<td>
-								<a href="{{course.courseLink}}" target="_blank">
-									{{course.courseName}}
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!--Intermediate Courses-->
-		<div>
-			<h2>Intermediate</h2>
-			<div class = "table-height">
-				<table class="table table-hover">
-					<tbody>
-						<tr ng-repeat="course in main.intermediateCourses">
-							<td>
-								<a href="{{course.courseLink}}" target="_blank">
-									{{course.courseName}}
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!--Advance Courses-->
-		<div>
-			<h2>Advance</h2>
-			<div class = "table-height">
-				<table class="table table-hover">
-					<tbody>
-						<tr ng-repeat="course in main.advanceCourses">
-							<td><a href="{{course.courseLink}}" target="_blank">
-								{{course.courseName}}
-							</a></td>
-						</tr>
-					</tbody>
-				</table>
+	<div ng-controller = "navController as main">
+		<ul class = "nav nav-tabs">
+			<li ng-class = "{active: main.activeTab == 'Courses'}"><a ng-click="main.activeTab = 'Courses' ">Courses</a></li>
+			<li ng-class = "{active: main.activeTab == 'Discussion'}"><a ng-click="main.activeTab = 'Discussion' ">Discussion</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div ng-switch="main.activeTab">
+				<div ng-switch-when='Courses'> 
+					<div ng-include = '"./course.html"'>
+					</div>
+				</div>
+				<div ng-switch-when='Discussion'> 
+					<div ng-include = '"./discussion.html"'>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

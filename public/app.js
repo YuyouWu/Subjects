@@ -107,6 +107,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 
 .controller('courseController', function($routeParams, Subject, Course) {
 	var vm = this;
+	
 	//Reset subject after navigating 
 	vm.currentSubject = {};
 	if ($routeParams.id) {
@@ -144,4 +145,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 			console.log(e);
 		});
 	}
+}).controller('navController', function($routeParams, Subject, Course) {
+	var vm = this;
+	vm.activeTab = "Courses";
 });
