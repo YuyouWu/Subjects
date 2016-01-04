@@ -40,8 +40,8 @@
 
 	<div ng-controller = "navController as main">
 		<ul class = "nav nav-tabs">
-			<li ng-class = "{active: main.activeTab == 'Courses'}"><a ng-click="main.activeTab = 'Courses' ">Courses</a></li>
-			<li ng-class = "{active: main.activeTab == 'Discussion'}"><a ng-click="main.activeTab = 'Discussion' ">Discussion</a></li>
+			<li ng-class = "{active: main.activeTab == 'Courses'}"><a href = "subject/{{main.subjectID}}">Courses</a></li>
+			<li ng-class = "{active: main.activeTab == 'Discussion'}"><a href = "subject/{{main.subjectID}}/discussion">Discussion</a></li>
 		</ul>
 
 		<div class="tab-content">

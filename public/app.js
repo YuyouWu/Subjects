@@ -145,7 +145,16 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 			console.log(e);
 		});
 	}
-}).controller('navController', function($routeParams, Subject, Course) {
+}).controller('navController', function($routeParams) {
 	var vm = this;
-	vm.activeTab = "Courses";
+	//Get id param
+	if ($routeParams.id) {
+		vm.subjectID = $routeParams.id;
+	}
+	//Get tab param
+	 if ($routeParams.tab === "discussion"){
+		vm.activeTab = "Discussion"
+	} else {
+		vm.activeTab = "Courses";
+	}
 });
