@@ -17,3 +17,8 @@
 p.p-width {
     width: 550px;
 }
+
+.table-height{
+	height: 160px; 
+	overflow:auto;
+}
