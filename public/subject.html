@@ -2,7 +2,9 @@
 	<div class="jumbotron"> 
 		<h1>{{main.currentSubject.subjectName}}</h1>
 		<!--Post New Course Button-->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newCourseModal">Post New Course</button>
+		<div class = "top-padding-10">
+			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#newCourseModal">Post New Course</button>
+		</div>
 	</div>
 
 	<!--New Course Modal-->
@@ -30,54 +32,61 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" ng-click = "main.createNewCourse()">Confirm</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!--Beginner Courses-->
-	<div>
-		<h2>Beginner</h2>
-		<div class = "table-height">
-			<table class="table table-hover">
-				<tbody>
-					<tr ng-repeat="course in main.beginnerCourses">
-						<td><a href="{{course.courseLink}}" target="_blank">
-							{{course.courseName}}
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
+	<div class= "container-fluid">
+		<!--Beginner Courses-->
+		<div>
+			<h2>Beginner</h2>
+			<div class = "table-height">
+				<table class="table table-hover">
+					<tbody>
+						<tr ng-repeat="course in main.beginnerCourses">
+							<td>
+								<a href="{{course.courseLink}}" target="_blank">
+									{{course.courseName}}
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
-	<!--Intermediate Courses-->
-	<div>
-		<h2>Intermediate</h2>
-		<div class = "table-height">
-			<table class="table table-hover">
-				<tbody>
-					<tr ng-repeat="course in main.intermediateCourses">
-						<td><a href="{{course.courseLink}}" target="_blank">
-							{{course.courseName}}
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
+		<!--Intermediate Courses-->
+		<div>
+			<h2>Intermediate</h2>
+			<div class = "table-height">
+				<table class="table table-hover">
+					<tbody>
+						<tr ng-repeat="course in main.intermediateCourses">
+							<td>
+								<a href="{{course.courseLink}}" target="_blank">
+									{{course.courseName}}
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
-	<!--Advance Courses-->
-	<div>
-		<h2>Advance</h2>
-		<div class = "table-height">
-			<table class="table table-hover">
-				<tbody>
-					<tr ng-repeat="course in main.advanceCourses">
-						<td><a href="{{course.courseLink}}" target="_blank">
-							{{course.courseName}}
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
+		<!--Advance Courses-->
+		<div>
+			<h2>Advance</h2>
+			<div class = "table-height">
+				<table class="table table-hover">
+					<tbody>
+						<tr ng-repeat="course in main.advanceCourses">
+							<td><a href="{{course.courseLink}}" target="_blank">
+								{{course.courseName}}
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

@@ -22,3 +22,7 @@ p.p-width {
 	height: 160px; 
 	overflow:auto;
 }
+
+.top-padding-10 {
+	padding-top: 10px;
+}

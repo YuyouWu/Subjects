@@ -1,8 +1,8 @@
-angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'authService','appRouter'])
+angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'authService', 'appRouter'])
 
 //Display subject on index.html
 //Execute query for searching subject name
-.controller('subjectController', function (Subject, $window, $location, $routeParams){ 
+.controller('subjectController', function(Subject, $window, $location, $routeParams) {
 
 	var vm = this;
 
@@ -10,14 +10,14 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	vm.subjectData = {};
 
 	//Display all subject at index page
-	Subject.all().success(function (data){
+	Subject.all().success(function(data) {
 		vm.subjectData = data;
 	});
 
 	//Search for subject by name at index page
 	vm.searchKey = "";
-	vm.searchSubject = function (){
-		Subject.search(vm.searchKey).success(function (data){
+	vm.searchSubject = function() {
+		Subject.search(vm.searchKey).success(function(data) {
 			vm.subjectData = data;
 		});
 	}
@@ -26,12 +26,12 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	vm.newSubject = {};
 	vm.newSubject.subjectNameReq = "";
 	vm.newSubject.message = "";
-	vm.requestSubject = function (){
+	vm.requestSubject = function() {
 		console.log(vm.newSubject.subjectNameReq);
-		Subject.create(vm.newSubject).success(function (data){
+		Subject.create(vm.newSubject).success(function(data) {
 			console.log(data);
 			vm.newSubject.message = "New subject request has been submitted. "
-		}).error (function (e){
+		}).error(function(e) {
 			console.log(e);
 			vm.newSubject.message = "Error. Check if your subject name is the same with any existing subjects."
 		});
@@ -39,8 +39,8 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 
 	//Get subject by ID
 	vm.currentSubject = {};
-	vm.getSubject = function(subjectID){
-		Subject.getSubject(subjectID).success(function (data){
+	vm.getSubject = function(subjectID) {
+		Subject.getSubject(subjectID).success(function(data) {
 			vm.currentSubject = data;
 			console.log(vm.currentSubject);
 			//$location.path('/subject/' + data.id);
@@ -52,7 +52,7 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 //Check if a user is logged in
 //Create new user
 //Login/Logout user
-.controller('userController', function (Subject, User, Auth){
+.controller('userController', function(Subject, User, Auth) {
 	var vm = this;
 
 	vm.userData = {};
@@ -61,18 +61,18 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	vm.userData.confirmPassword = "";
 
 	//Check if logged in or not
-	vm.isLoggedIn = function (){
-		if (Auth.isLoggedIn()){
+	vm.isLoggedIn = function() {
+		if (Auth.isLoggedIn()) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
 	//Create new user
-	vm.createUser = function (){
-		if(vm.userData.password === vm.userData.confirmPassword){
-			User.create(vm.userData).success(function (data){
+	vm.createUser = function() {
+		if (vm.userData.password === vm.userData.confirmPassword) {
+			User.create(vm.userData).success(function(data) {
 				//Clear userData
 				vm.userData.email = "";
 				vm.userData.password = "";
@@ -86,8 +86,8 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	}
 
 	//Login user
-	vm.loginUser = function (){
-		Auth.login(vm.userData.email, vm.userData.password).success(function (data){
+	vm.loginUser = function() {
+		Auth.login(vm.userData.email, vm.userData.password).success(function(data) {
 			//Clear userData
 			vm.userData.email = "";
 			vm.userData.password = "";
@@ -98,49 +98,49 @@ angular.module('syllabus',['subjectService' , 'courseService', 'userService', 'a
 	}
 
 	//Logout user
-	vm.logoutUser = function (){
-		Auth.logout().success(function (data){
-			
+	vm.logoutUser = function() {
+		Auth.logout().success(function(data) {
+
 		});
 	}
 })
 
-.controller('courseController', function ($routeParams, Subject, Course){
+.controller('courseController', function($routeParams, Subject, Course) {
 	var vm = this;
 	//Reset subject after navigating 
 	vm.currentSubject = {};
-	if($routeParams.id){
+	if ($routeParams.id) {
 		vm.subjectID = $routeParams.id;
-		Subject.getSubject(vm.subjectID).success(function (data){
+		Subject.getSubject(vm.subjectID).success(function(data) {
 			vm.currentSubject = data;
 		});
 	}
 
 	//Get courses by subjectID and defficulty
-	vm.beginnerCourses=[];
-	vm.intermediateCourses=[];
-	vm.advanceCourses=[];
+	vm.beginnerCourses = [];
+	vm.intermediateCourses = [];
+	vm.advanceCourses = [];
 	//Beginner
-	Course.bCourse(vm.subjectID).success(function (data){
+	Course.bCourse(vm.subjectID).success(function(data) {
 		vm.beginnerCourses = data;
 	});
 	//Intermediate
-	Course.iCourse(vm.subjectID).success(function (data){
+	Course.iCourse(vm.subjectID).success(function(data) {
 		vm.intermediateCourses = data;
 	});
 	//Advance
-	Course.aCourse(vm.subjectID).success(function (data){
+	Course.aCourse(vm.subjectID).success(function(data) {
 		vm.advanceCourses = data;
 	});
 
 	vm.newCourse = {};
 	vm.newCourse.subjectID = vm.subjectID;
-	vm.createNewCourse = function (){
+	vm.createNewCourse = function() {
 		console.log("here");
-		Course.create(vm.newCourse).success(function (data){
+		Course.create(vm.newCourse).success(function(data) {
 			console.log(data);
 			$('#newCourseModal').modal('hide');
-		}).error(function (e){
+		}).error(function(e) {
 			console.log(e);
 		});
 	}
