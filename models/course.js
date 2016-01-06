@@ -22,6 +22,16 @@ module.exports = function (sequelize, DataTypes) {
 			allowNull:false
 		},
 
+		courseRating:{
+			type: DataTypes.INTEGER,
+			defaultValue: 0
+		},
+
+		userRating:{
+			type: DataTypes.INTEGER,
+			defaultValue: 0
+		},
+
 		subjectID: {
 			type: DataTypes.INTEGER,
 			allowNull:false

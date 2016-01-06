@@ -1,4 +1,4 @@
-angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'authService', 'appRouter'])
+angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'authService', 'appRouter', 'ui.bootstrap'])
 
 //Display subject on index.html
 //Execute query for searching subject name
@@ -100,7 +100,6 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 	//Logout user
 	vm.logoutUser = function() {
 		Auth.logout().success(function(data) {
-
 		});
 	}
 })
@@ -118,22 +117,95 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 	}
 
 	//Get courses by subjectID and defficulty
+	var allCourses = [];
 	vm.beginnerCourses = [];
 	vm.intermediateCourses = [];
 	vm.advanceCourses = [];
+
+	//Course Ratings
+	vm.userRating;
+	vm.maxRating = 5;
+	vm.isReadonly = false;
+	vm.userRating = {};
+	vm.hover = function(value){
+		vm.overStar = value;
+	}
+	vm.ratingStates = [
+		{stateOn: 'glyphicon-star', stateOff: 'glyphicon-star-empty'}
+	];
+
+	//get all courses by subject ID
+	//then assign average rating to each course
+	Course.getSubCourse(vm.subjectID).success(function(data){
+		allCourses = data;
+		vm.sum = 0;
+		//for every object in courses
+		allCourses.forEach(function (course){
+			//Get all ratings from that course
+			Course.getRating(course.id).success(function(data){
+				if(data.length > 0){
+					vm.ratingObjects = data;
+					vm.ratingObjects.forEach(function (rating){
+						vm.sum += rating.courseRating;
+					});
+					//calculate average rating and store average rating
+					vm.avgRating = {};
+					vm.avgRating.courseRating = vm.sum/vm.ratingObjects.length;
+					Course.put(course.id, vm.avgRating);
+					//reset sum 
+					vm.sum = 0;
+				}
+				//Post individual user rating
+				vm.rateClick = function(courseID, rating){
+					console.log("courseID: " + courseID + " Value: "+ rating);
+					vm.userRating.courseID = courseID;
+					vm.userRating.courseRating = rating;
+					console.log(vm.userRating);
+					Course.rate(courseID, vm.userRating);
+				}
+			});
+		});
+	});
+
 	//Beginner
 	Course.bCourse(vm.subjectID).success(function(data) {
 		vm.beginnerCourses = data;
+		//Get userRating
+		vm.beginnerCourses.forEach(function (course){
+			Course.getUserRating(course.id).success(function (rating){
+					//console.log(rating);
+					if(rating.length>0){
+						course.tempRating = rating[0].courseRating;
+					}
+				});
+		});
 	});
 	//Intermediate
 	Course.iCourse(vm.subjectID).success(function(data) {
 		vm.intermediateCourses = data;
+		vm.intermediateCourses.forEach(function (course){
+			Course.getUserRating(course.id).success(function (rating){
+					//console.log(rating);
+					if(rating.length>0){
+						course.tempRating = rating[0].courseRating;
+					}
+				});
+		});
 	});
 	//Advance
 	Course.aCourse(vm.subjectID).success(function(data) {
 		vm.advanceCourses = data;
+		vm.advanceCourses.forEach(function (course){
+			Course.getUserRating(course.id).success(function (rating){
+					//console.log(rating);
+					if(rating.length>0){
+						course.tempRating = rating[0].courseRating;
+					}
+				});
+		});
 	});
 
+	//Create new course
 	vm.newCourse = {};
 	vm.newCourse.subjectID = vm.subjectID;
 	vm.createNewCourse = function() {
@@ -145,7 +217,9 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 			console.log(e);
 		});
 	}
-}).controller('navController', function($routeParams) {
+})
+
+.controller('navController', function($routeParams) {
 	var vm = this;
 	//Get id param
 	if ($routeParams.id) {
@@ -157,4 +231,5 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 	} else {
 		vm.activeTab = "Courses";
 	}
-});
+})
+;

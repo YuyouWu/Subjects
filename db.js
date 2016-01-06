@@ -20,6 +20,7 @@ var db = {};
 db.subject = sequelize.import(__dirname + '/models/subject.js');
 db.subjectReq = sequelize.import(__dirname + '/models/subjectReq.js');
 db.course = sequelize.import(__dirname + '/models/course.js');
+db.courseRating = sequelize.import(__dirname + '/models/courseRating.js');
 db.user = sequelize.import(__dirname + '/models/user.js');
 db.token = sequelize.import(__dirname + '/models/token.js');
 db.sequelize = sequelize;
@@ -28,6 +29,8 @@ db.Sequalize = Sequalize;
 //Associations
 db.subject.hasMany(db.course);
 db.user.hasMany(db.subjectReq);
+db.user.hasMany(db.courseRating);
+db.courseRating.belongsTo(db.user);
 db.subjectReq.belongsTo(db.user);
 
 module.exports = db;

@@ -2,6 +2,11 @@
     text-align:center;
 }
 
+.div-right{
+	display:flex;
+	justify-content:flex-end;
+}
+
 .vertical-center{
 	min-height:100vh;
 	margin:0;
@@ -19,10 +24,34 @@ p.p-width {
 }
 
 .table-height{
-	height: 160px; 
+	height: 240px; 
 	overflow:auto;
 }
 
 .top-padding-10 {
 	padding-top: 10px;
+}
+
+.star-rating {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  
+  .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+
+    &.filled {
+      color: #fd0;
+    }
+  }
+
+  &.readonly .star.filled {
+    color: #666;
+  }
 }

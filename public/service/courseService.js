@@ -38,5 +38,24 @@ angular.module('courseService', [])
 			return $http.post('/courses', courseObject);
 		}
 
+		//Post course rating by id
+		courses.rate = function(id, rating){
+			return $http.post('/courses/rating/' + id, rating);
+		}
+
+		//Get course rating by id
+		courses.getRating = function(id){
+			return $http.get('/courses/rating/' + id);
+		}
+
+		courses.getUserRating = function(id){
+			return $http.get('/courses/userRating/' + id);
+		}
+
+		//Edit course avg rating
+		courses.put = function(id, object){
+			return $http.put('/courses/' + id, object);
+		}
+
 		return courses;
 	});

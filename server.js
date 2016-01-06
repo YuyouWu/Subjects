@@ -191,7 +191,7 @@ app.get('/courses/a/:id', function(req, res) {
 
 //Add courses
 app.post('/courses', function(req, res) {
-	var body = _.pick(req.body, 'courseName', 'courseLink', 'difficulty', 'subjectID');
+	var body = _.pick(req.body, 'courseName', 'courseLink', 'difficulty', 'subjectID', 'courseRating');
 
 	db.course.create(body).then(function(course) {
 		res.json(course.toJSON());
@@ -200,10 +200,74 @@ app.post('/courses', function(req, res) {
 	});
 });
 
+//Post rating
+app.post('/courses/rating/:id', middleware.requireAuthentication, function(req,res){
+	var courseID = parseInt(req.params.id, 10);
+	var body = _.pick(req.body, 'courseID', 'courseRating');
+	var attribute = {};
+	if (body.hasOwnProperty('courseRating')) {
+		attribute.courseID = body.courseID;
+		attribute.courseRating = body.courseRating;
+		attribute.userId = req.user.get('id');
+	}
+	db.courseRating.findOne({
+		where: {
+			courseID: courseID,
+			userId:req.user.get('id')
+		}
+	}).then(function(rating) {
+		if (rating) {
+			rating.update(attribute).then(function(rating) {
+				res.json(rating.toJSON());
+			}, function(e) {
+				res.status(400).json(e);
+			});
+		} else {
+			//res.status(404).send();
+			//create rating
+			db.courseRating.create(attribute).then(function (rating) {
+				res.json(rating.toJSON());
+			}, function(e) {
+				res.status(400).json(e);
+			});
+		}
+	}, function() {
+		res.status(500).send();
+	});
+});
+
+//Get a course's rating by course ID
+app.get('/courses/rating/:id', function(req,res){
+	var courseID = parseInt(req.params.id, 10);
+	db.courseRating.findAll({
+		where: {
+			courseID: courseID
+		}
+	}).then(function(courseRating) {
+		res.json(courseRating);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+app.get('/courses/userRating/:id', middleware.requireAuthentication, function(req,res){
+	var courseID = parseInt(req.params.id, 10);
+	db.courseRating.findAll({
+		where: {
+			courseID: courseID,
+			userId: req.user.get('id')
+		}
+	}).then(function(courseRating) {
+		res.json(courseRating);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
 //Edit existing course
 app.put('/courses/:id', function(req, res) {
 	var courseID = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'courseName', 'difficulty');
+	var body = _.pick(req.body, 'courseName', 'difficulty', 'courseLink', 'courseRating');
 	var attribute = {};
 
 	if (body.hasOwnProperty('courseName')) {
@@ -212,6 +276,14 @@ app.put('/courses/:id', function(req, res) {
 
 	if (body.hasOwnProperty('difficulty')) {
 		attribute.difficulty = body.difficulty;
+	}
+
+	if (body.hasOwnProperty('courseLink')) {
+		attribute.courseLink = body.courseLink;
+	}
+
+	if (body.hasOwnProperty('courseRating')) {
+		attribute.courseRating = body.courseRating;
 	}
 
 	db.course.findOne({
