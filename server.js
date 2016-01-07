@@ -148,6 +148,7 @@ app.get('/courses/sub/:id', function(req, res) {
 app.get('/courses/b/:id', function(req, res) {
 	var ID = parseInt(req.params.id, 10);
 	db.course.findAll({
+		order: [['courseRating', 'DESC']],
 		where: {
 			subjectID: ID,
 			difficulty: 'Beginner'
@@ -163,6 +164,7 @@ app.get('/courses/b/:id', function(req, res) {
 app.get('/courses/i/:id', function(req, res) {
 	var ID = parseInt(req.params.id, 10);
 	db.course.findAll({
+		order: [['courseRating', 'DESC']],
 		where: {
 			subjectID: ID,
 			difficulty: 'Intermediate'
@@ -178,6 +180,7 @@ app.get('/courses/i/:id', function(req, res) {
 app.get('/courses/a/:id', function(req, res) {
 	var ID = parseInt(req.params.id, 10);
 	db.course.findAll({
+		order: [['courseRating', 'DESC']],
 		where: {
 			subjectID: ID,
 			difficulty: 'Advance'
