@@ -21,16 +21,28 @@ db.subject = sequelize.import(__dirname + '/models/subject.js');
 db.subjectReq = sequelize.import(__dirname + '/models/subjectReq.js');
 db.course = sequelize.import(__dirname + '/models/course.js');
 db.courseRating = sequelize.import(__dirname + '/models/courseRating.js');
+db.post = sequelize.import(__dirname + '/models/post.js');
+db.comment = sequelize.import(__dirname + '/models/comment.js');
 db.user = sequelize.import(__dirname + '/models/user.js');
 db.token = sequelize.import(__dirname + '/models/token.js');
 db.sequelize = sequelize;
 db.Sequalize = Sequalize;
 
 //Associations
+
+//courses
 db.subject.hasMany(db.course);
+//subject request
 db.user.hasMany(db.subjectReq);
+db.subjectReq.belongsTo(db.user);
+//courseRating
 db.user.hasMany(db.courseRating);
 db.courseRating.belongsTo(db.user);
-db.subjectReq.belongsTo(db.user);
+//posts
+db.user.hasMany(db.post);
+db.post.belongsTo(db.user);
+//comment 
+db.user.hasMany(db.comment);
+db.comment.belongsTo(db.user);
 
 module.exports = db;

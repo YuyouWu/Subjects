@@ -14,7 +14,7 @@
 							<div>
 								{{course.courseRating | number:1}}:
 								<uib-rating ng-model="course.courseRating" max="main.maxRating" readonly="true" on-hover="main.hover(value)" on-leave="overStar = null" style="color:#428bca; padding-right: 25px;"></uib-rating>
-								Your Rating:
+								Your Rating: {{course.tempRating}}
 								<uib-rating ng-model="course.tempRating" max="main.maxRating" readonly="false" on-hover="main.hover(value)" on-leave="overStar = null" style="color:#428bca" ng-click = "main.rateClick(course.id, course.tempRating)"></uib-rating>
 							</div>								
 						</td>

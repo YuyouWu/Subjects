@@ -315,7 +315,7 @@ app.delete('/courses/:id', function(req, res) {
 	db.course.destroy({
 		where: {
 			id: courseID
-				//userId: req.user.get('id')
+			//userId: req.user.get('id')
 		}
 	}).then(function(rowsDeleted) {
 		if (rowsDeleted === 0) {
@@ -377,6 +377,46 @@ app.delete('/users/logout', middleware.requireAuthentication, function(req, res)
 //Send index html when request from browser
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
+//DISCUSSIOON API ==================
+//==================================
+
+//Add new post based on subject ID
+app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
+	var subjectID = parseInt(req.params.id, 10);
+	var body = _.pick(req.body, 'title', 'content');
+	var attribute = {};
+	attribute.subjectID = subjectID;
+	attribute.userId = req.user.get('id');
+	attribute.title = body.title;
+	attribute.content = body.content;
+
+	db.post.create(attribute).then(function (post){
+		//req.user.addPost(post). then(function (){
+		//	return post.reload();
+		//}).then(function (post) {
+			res.json(post.toJSON());
+		//});
+	}, function (e){
+		res.status(400).json(e);
+	});
+});
+
+//post a comment based on postID
+app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
+	var postID = parseInt(req.params.id, 10);
+	var body = _.pick(req.body, 'content');
+	var attribute = {};
+	attribute.postID = postID;
+	attribute.userId = req.user.get('id');
+	attribute.content = body.content;
+
+	db.comment.create(attribute).then(function (post){
+		res.json(post.toJSON());
+	}, function (e){
+		res.status(400).json(e);
+	});
 });
 
 //Sync data to database
