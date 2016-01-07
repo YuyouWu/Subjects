@@ -9,7 +9,7 @@
 					<tr ng-repeat="course in main.beginnerCourses">
 						<td>
 							<a href="{{course.courseLink}}" target="_blank">
-								{{course.courseName}}
+								<p><b>{{course.courseName}}</b></p>
 							</a>
 							<div>
 								{{course.courseRating | number:1}}:
@@ -32,7 +32,7 @@
 					<tr ng-repeat="course in main.intermediateCourses">
 						<td>
 							<a href="{{course.courseLink}}" target="_blank">
-								{{course.courseName}}
+								<p><b>{{course.courseName}}</b></p>
 							</a>
 							<div>
 								{{course.courseRating | number:1}}
@@ -55,7 +55,7 @@
 					<tr ng-repeat="course in main.advanceCourses">
 						<td>
 							<a href="{{course.courseLink}}" target="_blank">
-								{{course.courseName}}
+								<p><b>{{course.courseName}}</b></p>
 							</a>
 							<div>
 								{{course.courseRating | number:1}}

@@ -24,7 +24,7 @@ p.p-width {
 }
 
 .table-height{
-	height: 240px; 
+  max-height:350px;
 	overflow:auto;
 }
 
