@@ -15,9 +15,7 @@ angular.module('appRouter', ['ngRoute'])
 				controller: 'courseController',
 				controllerAs: 'main'
 			}).when('/subject/:id/:tab', {
-				templateUrl: '/subject.html',
-				controller: 'courseController',
-				controllerAs: 'main'
+				templateUrl: '/subject.html'
 			});
 
 		$locationProvider.html5Mode(true);

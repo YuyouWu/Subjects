@@ -1,2 +1,18 @@
-<!DOCTYPE html>
-<h2>Discussion</h2>
+<div class = "container-fluid">
+	<div>
+		<h2>Discussion
+			<button class= "btn btn-default navbar-right">New Post</button>
+		</h2>
+	</div>
+	<div ng-controller = "discussionController as main">
+		<table class="table table-hover">
+			<tbody>
+				<tr ng-repeat="post in main.posts">
+					<td>
+						<p><b>{{post.title}}</b></p>	
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -374,11 +374,6 @@ app.delete('/users/logout', middleware.requireAuthentication, function(req, res)
 	});
 });
 
-//Send index html when request from browser
-app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
 //DISCUSSIOON API ==================
 //==================================
 
@@ -477,6 +472,39 @@ app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
 	}, function() {
 		res.status(500).send();
 	});
+});
+
+//Get post by subject id
+app.get('/post/:id/', function(req, res) {
+	var subjectID = parseInt(req.params.id, 10);
+	db.post.findAll({
+		where: {
+			subjectID: subjectID
+		}
+	}).then(function(post) {
+		res.json(post);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Get comment by post id
+app.get('/comment/:id/', function(req, res) {
+	var postID = parseInt(req.params.id, 10);
+	db.comment.findAll({
+		where: {
+			postID: postID
+		}
+	}).then(function(comment) {
+		res.json(comment);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Send index html when request from browser
+app.get('*', function(req, res) {
+	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 //Sync data to database

@@ -1,4 +1,4 @@
-angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'authService', 'appRouter', 'ui.bootstrap'])
+angular.module('syllabus', ['subjectService', 'courseService', 'discussionService', 'userService', 'authService', 'appRouter', 'ui.bootstrap'])
 
 //Display subject on index.html
 //Execute query for searching subject name
@@ -131,7 +131,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 		vm.overStar = value;
 	}
 	vm.ratingStates = [
-		{stateOn: 'glyphicon-star', stateOff: 'glyphicon-star-empty'}
+	{stateOn: 'glyphicon-star', stateOff: 'glyphicon-star-empty'}
 	];
 
 	//get all courses by subject ID
@@ -219,6 +219,29 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 	}
 })
 
+.controller('discussionController', function($routeParams, Discussion) {
+	var vm = this;
+
+	//Get id param
+	if ($routeParams.id) {
+		vm.subjectID = $routeParams.id;
+	}
+
+	//Get post for current subject
+	vm.posts = {};
+	Discussion.getPost(vm.subjectID).success(function (data){
+		console.log(data);
+		vm.posts = data;
+	});
+	
+	vm.newPost = {};
+	vm.createPost = function(){
+		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){
+			console.log(data)
+		});
+	}
+})
+
 .controller('navController', function($routeParams) {
 	var vm = this;
 	//Get id param
@@ -226,7 +249,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'userService', 'a
 		vm.subjectID = $routeParams.id;
 	}
 	//Get tab param
-	 if ($routeParams.tab === "discussion"){
+	if ($routeParams.tab === "discussion"){
 		vm.activeTab = "Discussion"
 	} else {
 		vm.activeTab = "Courses";
