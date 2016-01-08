@@ -422,7 +422,7 @@ app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
 //Edit post content
 app.put('/post/:id/', middleware.requireAuthentication, function(req, res){
 	var postID = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'title', 'content');
+	var body = _.pick(req.body, 'content');
 	var attribute = {};
 
 	if (body.hasOwnProperty('content')) {
@@ -434,19 +434,49 @@ app.put('/post/:id/', middleware.requireAuthentication, function(req, res){
 			id: postID,
 			userId:req.user.get('id')
 		}
-		}).then(function(post) {
-			if (post) {
-				post.update(attribute).then(function(post) {
-					res.json(post.toJSON());
-				}, function(e) {
-					res.status(400).json(e);
-				});
-			} else {
-				res.status(404).send();
-			}
-		}, function() {
-			res.status(500).send();
-		});
+	}).then(function(post) {
+		if (post) {
+			post.update(attribute).then(function(post) {
+				res.json(post.toJSON());
+			}, function(e) {
+				res.status(400).json(e);
+			});
+		} else {
+			res.status(404).send();
+		}
+	}, function() {
+		res.status(500).send();
+	});
+});
+
+//Edit comment content
+app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
+	var commentID = parseInt(req.params.id, 10);
+	var body = _.pick(req.body, 'content');
+	var attribute = {};
+
+	if (body.hasOwnProperty('content')) {
+		attribute.content = body.content;
+	}
+
+	db.comment.findOne({
+		where: {
+			id: commentID,
+			userId:req.user.get('id')
+		}
+	}).then(function(comment) {
+		if (comment) {
+			comment.update(attribute).then(function(comment) {
+				res.json(comment.toJSON());
+			}, function(e) {
+				res.status(400).json(e);
+			});
+		} else {
+			res.status(404).send();
+		}
+	}, function() {
+		res.status(500).send();
+	});
 });
 
 //Sync data to database
