@@ -219,7 +219,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('discussionController', function($routeParams, Discussion, Subject) {
+.controller('discussionController', function($routeParams, $window, Discussion, Subject) {
 	var vm = this;
 	vm.posts = {};
 	//Get id param
@@ -249,6 +249,8 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.createPost = function(){
 		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){
 			console.log(data);
+			$('#newPostModal').modal('hide');
+			$window.location.reload();
 		});
 	}
 })
