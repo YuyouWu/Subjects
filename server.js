@@ -414,7 +414,7 @@ app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
 	});
 });
 
-//Edit post content
+//Edit post content with POST ID
 app.put('/post/:id/', middleware.requireAuthentication, function(req, res){
 	var postID = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'content');
@@ -444,7 +444,7 @@ app.put('/post/:id/', middleware.requireAuthentication, function(req, res){
 	});
 });
 
-//Edit comment content
+//Edit comment content with COMMENT ID
 app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
 	var commentID = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'content');
@@ -475,7 +475,7 @@ app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
 });
 
 //Get post by subject id
-app.get('/post/:id/', function(req, res) {
+app.get('/allPost/:id/', function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
 	db.post.findAll({
 		where: {
@@ -488,8 +488,22 @@ app.get('/post/:id/', function(req, res) {
 	});
 });
 
+//Get post by POST ID
+app.get('/post/:id/', function(req, res) {
+	var postID = parseInt(req.params.id, 10);
+	db.post.findById(postID).then(function(post) {
+		if (!!post) {
+			res.json(post.toJSON());
+		} else {
+			res.status(404).send();
+		}
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
 //Get comment by post id
-app.get('/comment/:id/', function(req, res) {
+app.get('/allComment/:id/', function(req, res) {
 	var postID = parseInt(req.params.id, 10);
 	db.comment.findAll({
 		where: {
@@ -497,6 +511,20 @@ app.get('/comment/:id/', function(req, res) {
 		}
 	}).then(function(comment) {
 		res.json(comment);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Get comment by COMMENT ID
+app.get('/comment/:id/', function(req, res) {
+	var commentID = parseInt(req.params.id, 10);
+	db.comment.findById(commentID).then(function(comment) {
+		if (!!comment) {
+			res.json(comment.toJSON());
+		} else {
+			res.status(404).send();
+		}
 	}, function(e) {
 		res.status(500).send();
 	});

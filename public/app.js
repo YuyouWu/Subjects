@@ -219,25 +219,36 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('discussionController', function($routeParams, Discussion) {
+.controller('discussionController', function($routeParams, Discussion, Subject) {
 	var vm = this;
-
+	vm.posts = {};
 	//Get id param
 	if ($routeParams.id) {
 		vm.subjectID = $routeParams.id;
+		//Get post for current subject
+		Subject.getSubject(vm.subjectID).success(function(data) {
+			vm.currentSubject = data;
+		});
+		Discussion.getAllPost(vm.subjectID).success(function (data){
+			vm.posts = data;
+		});
 	}
 
-	//Get post for current subject
-	vm.posts = {};
-	Discussion.getPost(vm.subjectID).success(function (data){
-		console.log(data);
-		vm.posts = data;
-	});
+	if ($routeParams.postID) {
+		vm.postID = $routeParams.postID;
+		//Get comments with post ID
+		Discussion.getPost(vm.postID).success(function (data){
+			vm.currentPost = data;
+		});
+		Discussion.getAllComment(vm.postID).success(function (data){
+			vm.comments = data;
+		});
+	}
 	
 	vm.newPost = {};
 	vm.createPost = function(){
 		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){
-			console.log(data)
+			console.log(data);
 		});
 	}
 })

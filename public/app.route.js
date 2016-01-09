@@ -16,6 +16,10 @@ angular.module('appRouter', ['ngRoute'])
 				controllerAs: 'main'
 			}).when('/subject/:id/:tab', {
 				templateUrl: '/subject.html'
+			}).when('/discussion/:id/:postID', {
+				templateUrl: '/post.html',
+				controller: 'discussionController',
+				controllerAs: 'main'
 			});
 
 		$locationProvider.html5Mode(true);

@@ -23,11 +23,21 @@ angular.module('discussionService', [])
 		}
 
 		//Get post with SUBJECT ID
+		discussion.getAllPost = function (id){
+			return $http.get('/allPost/' + id); 
+		}
+
+		//Get comment with POST ID
+		discussion.getAllComment = function (id){
+			return $http.get('/allComment/' + id); 
+		}
+
+				//Get post with POST ID
 		discussion.getPost = function (id){
 			return $http.get('/post/' + id); 
 		}
 
-		//Get comment with POST ID
+		//Get comment with COMMENT ID
 		discussion.getComment = function (id){
 			return $http.get('/comment/' + id); 
 		}

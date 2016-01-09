@@ -9,7 +9,7 @@
 			<tbody>
 				<tr ng-repeat="post in main.posts">
 					<td>
-						<p><b>{{post.title}}</b></p>	
+						<p><b><a href="/discussion/{{main.subjectID}}/{{post.id}}">{{post.title}}</a></b></p>
 					</td>
 				</tr>
 			</tbody>
