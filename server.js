@@ -478,6 +478,7 @@ app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
 app.get('/allPost/:id/', function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
 	db.post.findAll({
+		order: [['createdAt', 'DESC']],
 		where: {
 			subjectID: subjectID
 		}
@@ -506,6 +507,7 @@ app.get('/post/:id/', function(req, res) {
 app.get('/allComment/:id/', function(req, res) {
 	var postID = parseInt(req.params.id, 10);
 	db.comment.findAll({
+		order: [['createdAt', 'DESC']],
 		where: {
 			postID: postID
 		}

@@ -253,6 +253,14 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			$window.location.reload();
 		});
 	}
+
+	vm.newComment = {};
+	vm.comment = function(){
+		Discussion.comment(vm.postID,vm.newComment).success(function (data){
+			console.log(data);
+			$window.location.reload();
+		});
+	}
 })
 
 .controller('navController', function($routeParams) {
