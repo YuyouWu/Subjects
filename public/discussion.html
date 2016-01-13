@@ -6,7 +6,10 @@
 				<tr ng-repeat="post in main.posts">
 					<td>
 						<p><b><a href="/discussion/{{main.subjectID}}/{{post.id}}">{{post.title}}</a></b></p>
-						{{post.userName}}
+						<div>
+						<p style="display:inline; color: grey;">{{post.createdAt | date:'MMMM d, y'}}  •</p>
+						<p style="display:inline; color: grey;">{{post.userName}}</p>
+						</div>
 					</td>
 				</tr>
 			</tbody>
