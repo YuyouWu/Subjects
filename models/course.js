@@ -30,11 +30,6 @@ module.exports = function (sequelize, DataTypes) {
 		userRating:{
 			type: DataTypes.INTEGER,
 			defaultValue: 0
-		},
-
-		subjectID: {
-			type: DataTypes.INTEGER,
-			allowNull:false
 		}
 	});
 };

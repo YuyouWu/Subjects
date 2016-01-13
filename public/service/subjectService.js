@@ -20,7 +20,7 @@ angular.module('subjectService',[])
 
 	//Request new subject
 	subjects.create = function (subjectNameReq){
-		return $http.post('/subjects', subjectNameReq);
+		return $http.post('/subjectsReq', subjectNameReq);
 	}
 
 	return subjects;

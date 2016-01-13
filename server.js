@@ -60,6 +60,18 @@ app.get('/subjects/:id', function(req, res) {
 
 //Request subjects
 app.post('/subjects', middleware.requireAuthentication, function(req, res) {
+	var body = _.pick(req.body, 'subjectName');
+
+	//Post name in subjectReq table
+	db.subject.create(body).then(function(subject) {
+		res.json(subject.toJSON());
+	}, function(e) {
+		res.status(400).json(e);
+	});
+});
+
+//Request subjects
+app.post('/subjectsReq', middleware.requireAuthentication, function(req, res) {
 	var body = _.pick(req.body, 'subjectNameReq');
 
 	//Post name in subjectReq table
@@ -194,7 +206,7 @@ app.get('/courses/a/:id', function(req, res) {
 
 //Add courses
 app.post('/courses', function(req, res) {
-	var body = _.pick(req.body, 'courseName', 'courseLink', 'difficulty', 'subjectID', 'courseRating');
+	var body = _.pick(req.body, 'courseName', 'courseLink', 'difficulty', 'subjectId', 'courseRating');
 
 	db.course.create(body).then(function(course) {
 		res.json(course.toJSON());
@@ -336,7 +348,7 @@ app.delete('/courses/:id', function(req, res) {
 //Create user
 app.post('/users', function(req, res) {
 	console.log(req.body);
-	var body = _.pick(req.body, 'email', 'password');
+	var body = _.pick(req.body, 'email', 'password', 'userName');
 
 	db.user.create(body).then(function(user) {
 		res.json(user.toPublicJSON());
@@ -374,16 +386,31 @@ app.delete('/users/logout', middleware.requireAuthentication, function(req, res)
 	});
 });
 
+//Get user from userID
+app.get('/users/:id/', function(req, res){
+	var userID = parseInt(req.params.id, 10);
+	db.user.findById(userID).then(function(user) {
+		if (!!user) {
+			res.json(user.toJSON());
+		} else {
+			res.status(404).send();
+		}
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
 //DISCUSSIOON API ==================
 //==================================
 
 //Add new post based on subject ID
 app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
 	var subjectID = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'title', 'content');
+	var body = _.pick(req.body, 'title', 'content' , 'userName');
 	var attribute = {};
 	attribute.subjectID = subjectID;
 	attribute.userId = req.user.get('id');
+	attribute.userName = req.user.get('userName');
 	attribute.title = body.title;
 	attribute.content = body.content;
 

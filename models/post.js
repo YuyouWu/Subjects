@@ -1,6 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
 	return sequelize.define('post', {
-		
+		userName: {
+			type: DataTypes.STRING,
+			allowNull:false
+		},
+
 		title: {
 			type: DataTypes.STRING,
 			allowNull:false,

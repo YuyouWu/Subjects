@@ -6,6 +6,11 @@ var secretKey = process.env.SECRET_KEY;
 
 module.exports = function (sequelize, DataTypes) {
 	var user = sequelize.define('user', {
+		userName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true
+		},
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,

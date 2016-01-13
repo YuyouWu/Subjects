@@ -207,9 +207,8 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 
 	//Create new course
 	vm.newCourse = {};
-	vm.newCourse.subjectID = vm.subjectID;
+	vm.newCourse.subjectId = vm.subjectID;
 	vm.createNewCourse = function() {
-		console.log("here");
 		Course.create(vm.newCourse).success(function(data) {
 			console.log(data);
 			$('#newCourseModal').modal('hide');
@@ -219,7 +218,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('discussionController', function($routeParams, $window, Discussion, Subject) {
+.controller('discussionController', function($routeParams, $window, Discussion, Subject, User) {
 	var vm = this;
 	vm.posts = {};
 	//Get id param
@@ -231,6 +230,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		});
 		Discussion.getAllPost(vm.subjectID).success(function (data){
 			vm.posts = data;
+			console.log(data);
 		});
 	}
 
