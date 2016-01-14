@@ -333,7 +333,7 @@ app.delete('/courses/:id', function(req, res) {
 		if (rowsDeleted === 0) {
 			res.status(404).json({
 				error: 'No course with id.'
-			})
+			});
 		} else {
 			res.status(204).send();
 		}
@@ -386,9 +386,9 @@ app.delete('/users/logout', middleware.requireAuthentication, function(req, res)
 	});
 });
 
-//Get user from userID
-app.get('/users/:id/', function(req, res){
-	var userID = parseInt(req.params.id, 10);
+//Get current user
+app.get('/currentUser/', middleware.requireAuthentication, function(req, res){
+	var userID = req.user.get('id');
 	db.user.findById(userID).then(function(user) {
 		if (!!user) {
 			res.json(user.toJSON());
@@ -428,10 +428,11 @@ app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
 //post a comment based on postID
 app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
 	var postID = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'content');
+	var body = _.pick(req.body, 'content', 'userName');
 	var attribute = {};
 	attribute.postID = postID;
 	attribute.userId = req.user.get('id');
+	attribute.userName = req.user.get('userName');
 	attribute.content = body.content;
 
 	db.comment.create(attribute).then(function (post){
@@ -526,6 +527,27 @@ app.get('/post/:id/', function(req, res) {
 			res.status(404).send();
 		}
 	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Delete a post with POST ID
+app.delete('/post/:id/', middleware.requireAuthentication, function(req, res) {
+	var postID = parseInt(req.params.id, 10);
+	db.post.destroy({
+		where: {
+			id: postID,
+			userId: req.user.get('id')
+		}
+	}).then(function(rowsDeleted) {
+		if (rowsDeleted === 0) {
+			res.status(404).json({
+				error: 'No post with id.'
+			});
+		} else {
+			res.status(204).send();
+		}
+	}, function() {
 		res.status(500).send();
 	});
 });

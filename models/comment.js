@@ -12,6 +12,10 @@ module.exports = function (sequelize, DataTypes) {
 		postID:{
 			type: DataTypes.INTEGER,
 			allowNull:false
+		},
+
+		userName:{
+			type: DataTypes.STRING
 		}
 	});
 };

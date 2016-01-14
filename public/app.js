@@ -230,7 +230,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		});
 		Discussion.getAllPost(vm.subjectID).success(function (data){
 			vm.posts = data;
-			console.log(data);
+			//console.log(data);
 		});
 	}
 
@@ -242,9 +242,17 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		});
 		Discussion.getAllComment(vm.postID).success(function (data){
 			vm.comments = data;
+			//console.log(data);
 		});
 	}
-	
+
+	//get current user data
+	vm.currentUser = {};
+	User.getCurrentUser().success(function (user){
+		vm.currentUser = user;
+		console.log(user);
+	});
+
 	vm.newPost = {};
 	vm.createPost = function(){
 		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){

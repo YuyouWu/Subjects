@@ -1,12 +1,19 @@
 <div ng-controller = "discussionController as main">
 	<h1>{{main.currentSubject.subjectName}}</h1>
+
 	<div class="well well-sm">
 	<h3>{{main.currentPost.title}}</h3>
-	<p>{{main.currentPost.content}}</p>
+	<p style="display:inline; color: grey;">{{main.currentPost.createdAt | date:'MMMM d, y'}}  • </p>
+	<p style="display:inline; color: grey;">{{main.currentPost.userName}}</p>
+	<p style="display:inline; color: grey;" ng-if="main.currentUser.id === main.currentPost.userId"> • edit • </p>
+	<p style="display:inline; color: grey;" ng-if="main.currentUser.id === main.currentPost.userId">delete</p>
+	<p style="padding-top:10px">{{main.currentPost.content}}</p>
 	</div>
+
 	<div>
 		New Comment:
 	</div>
+
 	<div class="form-group">
 		<textarea class="form-control" ng-model = "main.newComment.content" rows="3" placeholder=" "></textarea>
 	</div>
@@ -21,7 +28,11 @@
 		<tbody>
 			<tr ng-repeat="comment in main.comments">
 				<td>
-					{{comment.content}}
+					<p>{{comment.content}}</p>
+					<p style="display:inline; color: grey;">{{comment.createdAt | date:'MMMM d, y'}}  •</p>
+					<p style="display:inline; color: grey;">{{comment.userName}}</p>
+					<p style="display:inline; color: grey;" ng-if="main.currentUser.id === comment.userId"> • edit • </p>
+					<p style="display:inline; color: grey;" ng-if="main.currentUser.id === comment.userId">delete</p>
 				</td>
 			</tr>
 		</tbody>
