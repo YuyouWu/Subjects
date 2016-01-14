@@ -12,6 +12,11 @@ angular.module('discussionService', [])
 			return $http.put('/post/' + id, body); 
 		}
 
+		//Delete post with POST ID
+		discussion.deletePost = function (id){
+			return $http.delete('/post/' + id);
+		}
+
 		//Create comment by POST ID
 		discussion.comment = function(id, body){
 			return $http.post('/comment/' + id, body); 

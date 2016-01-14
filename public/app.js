@@ -253,6 +253,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		console.log(user);
 	});
 
+	//Create new post
 	vm.newPost = {};
 	vm.createPost = function(){
 		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){
@@ -262,10 +263,28 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		});
 	}
 
+	//Create new comment
 	vm.newComment = {};
 	vm.comment = function(){
 		Discussion.comment(vm.postID,vm.newComment).success(function (data){
-			console.log(data);
+			//console.log(data);
+			$window.location.reload();
+		});
+	}
+
+	//Delete post 
+	vm.deletePost = function(id){
+		Discussion.deletePost(id).success(function (data){
+			$('#deletePostModal').modal('hide');
+			//$window.history.back();
+		});
+	}
+
+	//vm.editedPost = {};
+	vm.editPost = function (id){
+		Discussion.editPost(id, vm.currentPost).success(function (data){
+			console.log(vm.currentPost);
+			$('#editPostModal').modal('hide');
 			$window.location.reload();
 		});
 	}
