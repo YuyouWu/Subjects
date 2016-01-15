@@ -27,6 +27,10 @@ angular.module('discussionService', [])
 			return $http.put('/comment/' + id, body); 
 		}
 
+		discussion.deleteComment = function (id){
+			return $http.delete('/comment/' + id);
+		}
+
 		//Get post with SUBJECT ID
 		discussion.getAllPost = function (id){
 			return $http.get('/allPost/' + id); 
@@ -37,7 +41,7 @@ angular.module('discussionService', [])
 			return $http.get('/allComment/' + id); 
 		}
 
-				//Get post with POST ID
+		//Get post with POST ID
 		discussion.getPost = function (id){
 			return $http.get('/post/' + id); 
 		}

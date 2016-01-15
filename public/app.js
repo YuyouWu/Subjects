@@ -250,14 +250,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.currentUser = {};
 	User.getCurrentUser().success(function (user){
 		vm.currentUser = user;
-		console.log(user);
 	});
 
 	//Create new post
 	vm.newPost = {};
 	vm.createPost = function(){
 		Discussion.createPost(vm.subjectID, vm.newPost).success(function (data){
-			console.log(data);
 			$('#newPostModal').modal('hide');
 			$window.location.reload();
 		});
@@ -283,8 +281,24 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	//vm.editedPost = {};
 	vm.editPost = function (id){
 		Discussion.editPost(id, vm.currentPost).success(function (data){
-			console.log(vm.currentPost);
 			$('#editPostModal').modal('hide');
+			$window.location.reload();
+		});
+	}
+
+	//Delete comment 
+	vm.deleteComment = function(id){
+		Discussion.deleteComment(id).success(function (data){
+			$('#deleteCommentModal').modal('hide');
+			$window.location.reload();
+		});
+	}
+
+	//Edit Comment
+	vm.editedComment = {}; 
+	vm.editComment = function (id){
+		Discussion.editComment(id, vm.editedComment).success(function (data){
+			$('#editCommentModal').modal('hide');
 			$window.location.reload();
 		});
 	}

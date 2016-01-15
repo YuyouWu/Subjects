@@ -581,6 +581,27 @@ app.get('/comment/:id/', function(req, res) {
 	});
 });
 
+//Delete a comment with COMMENT ID
+app.delete('/comment/:id/', middleware.requireAuthentication, function(req, res) {
+	var commentID = parseInt(req.params.id, 10);
+	db.comment.destroy({
+		where: {
+			id: commentID,
+			userId: req.user.get('id')
+		}
+	}).then(function(rowsDeleted) {
+		if (rowsDeleted === 0) {
+			res.status(404).json({
+				error: 'No comment with id.'
+			});
+		} else {
+			res.status(204).send();
+		}
+	}, function() {
+		res.status(500).send();
+	});
+});
+
 //Send index html when request from browser
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/index.html'));
