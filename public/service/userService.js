@@ -15,5 +15,9 @@ angular.module('userService',[])
 		return $http.get('/currentUser/');
 	}
 
+	users.get = function (id){
+		return $http.get('/users/' + id);
+	}
+
 	return users;
 });

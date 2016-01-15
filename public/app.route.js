@@ -20,6 +20,10 @@ angular.module('appRouter', ['ngRoute'])
 				templateUrl: '/post.html',
 				controller: 'discussionController',
 				controllerAs: 'main'
+			}).when('/profile/:userID', {
+				templateUrl: '/profile.html',
+				controller: 'profileController',
+				controllerAs: 'main'
 			});
 
 		$locationProvider.html5Mode(true);

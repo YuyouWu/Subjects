@@ -102,6 +102,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		Auth.logout().success(function(data) {
 		});
 	}
+
+	//get current user data
+	vm.currentUser = {};
+	User.getCurrentUser().success(function (user){
+		vm.currentUser = user;
+	});
 })
 
 .controller('courseController', function($routeParams, Subject, Course) {
@@ -300,6 +306,16 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		Discussion.editComment(id, vm.editedComment).success(function (data){
 			$('#editCommentModal').modal('hide');
 			$window.location.reload();
+		});
+	}
+})
+
+.controller('profileController' , function($routeParams, User){
+	var vm = this;
+	if($routeParams.userID){
+		vm.userID = $routeParams.userID
+		User.get(vm.userID).success(function (data){
+			vm.userData = data;
 		});
 	}
 })

@@ -400,6 +400,20 @@ app.get('/currentUser/', middleware.requireAuthentication, function(req, res){
 	});
 });
 
+//Get user by userID
+app.get('/users/:id', function(req, res){
+	var userID = parseInt(req.params.id, 10);
+	db.user.findById(userID).then(function(user) {
+		if (!!user) {
+			res.json(user.toJSON());
+		} else {
+			res.status(404).send();
+		}
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
 //DISCUSSIOON API ==================
 //==================================
 
