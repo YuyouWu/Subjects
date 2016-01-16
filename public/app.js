@@ -320,17 +320,31 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('navController', function($routeParams) {
+.controller('navController', function($routeParams, User) {
 	var vm = this;
 	//Get id param
 	if ($routeParams.id) {
 		vm.subjectID = $routeParams.id;
+		//Get tab param
+		if ($routeParams.tab === "discussion"){
+			vm.activeTab = "Discussion"
+		} else {
+			vm.activeTab = "Courses";
+		}
 	}
-	//Get tab param
-	if ($routeParams.tab === "discussion"){
-		vm.activeTab = "Discussion"
-	} else {
-		vm.activeTab = "Courses";
+	if ($routeParams.userID) {
+		vm.userID = $routeParams.userID;
+
+		User.get(vm.userID).success(function (data){
+			vm.userData = data;
+		});
+		//Get tab param
+		if ($routeParams.tab === "posts"){
+			vm.activeTab = "posts"
+		} else if ($routeParams.tab === "comments"){
+			vm.activeTab = "comments";
+		} else if ($routeParams.tab === "courses"){
+			vm.activeTab = "courses";
+		}
 	}
-})
-;
+});

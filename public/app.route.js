@@ -24,6 +24,8 @@ angular.module('appRouter', ['ngRoute'])
 				templateUrl: '/profile.html',
 				controller: 'profileController',
 				controllerAs: 'main'
+			}).when('/profile/:userID/:tab', {
+				templateUrl: '/profile.html'
 			});
 
 		$locationProvider.html5Mode(true);
