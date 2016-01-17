@@ -51,10 +51,12 @@ angular.module('discussionService', [])
 			return $http.get('/comment/' + id); 
 		}
 
+		//Get all user's posts with user ID
 		discussion.userPost = function (id){
 			return $http.get('/allUserPost/' + id);
 		}
 
+		//Get all user's comments with user ID
 		discussion.userComment = function (id){
 			return $http.get('/allUserComment/' + id);
 		}

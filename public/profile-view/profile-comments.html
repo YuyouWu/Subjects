@@ -4,8 +4,9 @@
 			<tr ng-repeat="comment in main.allUserComments">
 				<td>
 					<a href="/discussion/{{comment.subjectID}}/{{comment.postID}}">
-						<p><b>{{comment.content}}</b></p>
+						<p><b>{{comment.postTitle}}</b></p>
 					</a>				
+					<p>{{comment.content}}</p>
 					<p style="color: grey;">{{comment.createdAt | date:'MMMM d, y'}} </p>
 				</td>
 			</tr>

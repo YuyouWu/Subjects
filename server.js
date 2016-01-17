@@ -265,12 +265,29 @@ app.get('/courses/rating/:id', function(req,res){
 	});
 });
 
+//Get user rating with course ID
 app.get('/courses/userRating/:id', middleware.requireAuthentication, function(req,res){
 	var courseID = parseInt(req.params.id, 10);
 	db.courseRating.findAll({
 		where: {
 			courseID: courseID,
 			userId: req.user.get('id')
+		}
+	}).then(function(courseRating) {
+		res.json(courseRating);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Get rated courses with user ID
+app.get('/courses/ratedCourses/:id', function(req, res){
+	var userID = parseInt(req.params.id, 10);
+	var courseObject = {};
+	db.courseRating.findAll({
+		order: [['courseRating', 'DESC']],
+		where: {
+			userId: userID
 		}
 	}).then(function(courseRating) {
 		res.json(courseRating);
@@ -304,7 +321,7 @@ app.put('/courses/:id', function(req, res) {
 	db.course.findOne({
 		where: {
 			id: courseID
-				//userId:req.user.get('id')
+			//userId:req.user.get('id')
 		}
 	}).then(function(course) {
 		if (course) {

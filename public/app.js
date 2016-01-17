@@ -52,7 +52,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 //Check if a user is logged in
 //Create new user
 //Login/Logout user
-.controller('userController', function(Subject, User, Auth) {
+.controller('userController', function(Subject, User, Auth, $window) {
 	var vm = this;
 
 	vm.userData = {};
@@ -94,23 +94,28 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			vm.userData.confirmPassword = "";
 			//hide modal
 			$('#loginModal').modal('hide');
+			$window.location.reload();
 		});
 	}
 
 	//Logout user
 	vm.logoutUser = function() {
 		Auth.logout().success(function(data) {
+			$window.location.reload();
 		});
 	}
 
-	//get current user data
-	vm.currentUser = {};
-	User.getCurrentUser().success(function (user){
-		vm.currentUser = user;
-	});
+
+	if (Auth.isLoggedIn()) {
+		//get current user data
+		vm.currentUser = {};
+		User.getCurrentUser().success(function (user){
+			vm.currentUser = user;
+		});
+	} 
 })
 
-.controller('courseController', function($routeParams, Subject, Course) {
+.controller('courseController', function($routeParams, Subject, Course, Auth) {
 	var vm = this;
 	
 	//Reset subject after navigating 
@@ -177,38 +182,44 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	Course.bCourse(vm.subjectID).success(function(data) {
 		vm.beginnerCourses = data;
 		//Get userRating
-		vm.beginnerCourses.forEach(function (course){
-			Course.getUserRating(course.id).success(function (rating){
+		if (Auth.isLoggedIn()) {
+			vm.beginnerCourses.forEach(function (course){
+				Course.getUserRating(course.id).success(function (rating){
 					//console.log(rating);
 					if(rating.length>0){
 						course.tempRating = rating[0].courseRating;
 					}
 				});
-		});
+			});
+		}
 	});
 	//Intermediate
 	Course.iCourse(vm.subjectID).success(function(data) {
 		vm.intermediateCourses = data;
-		vm.intermediateCourses.forEach(function (course){
-			Course.getUserRating(course.id).success(function (rating){
+		if (Auth.isLoggedIn()) {
+			vm.intermediateCourses.forEach(function (course){
+				Course.getUserRating(course.id).success(function (rating){
 					//console.log(rating);
 					if(rating.length>0){
 						course.tempRating = rating[0].courseRating;
 					}
 				});
-		});
+			});
+		}
 	});
 	//Advance
 	Course.aCourse(vm.subjectID).success(function(data) {
 		vm.advanceCourses = data;
-		vm.advanceCourses.forEach(function (course){
-			Course.getUserRating(course.id).success(function (rating){
+		if (Auth.isLoggedIn()) {
+			vm.advanceCourses.forEach(function (course){
+				Course.getUserRating(course.id).success(function (rating){
 					//console.log(rating);
 					if(rating.length>0){
 						course.tempRating = rating[0].courseRating;
 					}
 				});
-		});
+			});
+		}
 	});
 
 	//Create new course
@@ -224,7 +235,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('discussionController', function($routeParams, $window, Discussion, Subject, User) {
+.controller('discussionController', function($routeParams, $window, Discussion, Subject, User, Auth) {
 	var vm = this;
 	vm.posts = {};
 	//Get id param
@@ -253,10 +264,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 
 	//get current user data
-	vm.currentUser = {};
-	User.getCurrentUser().success(function (user){
-		vm.currentUser = user;
-	});
+	if (Auth.isLoggedIn()) {
+		vm.currentUser = {};
+		User.getCurrentUser().success(function (user){
+			vm.currentUser = user;
+		});
+	}
 
 	//Create new post
 	vm.newPost = {};
@@ -311,7 +324,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('profileController' , function($routeParams, User, Discussion){
+.controller('profileController' , function($routeParams, User, Discussion, Course){
 	var vm = this;
 	if($routeParams.userID){
 		vm.userID = $routeParams.userID
@@ -329,7 +342,33 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.allUserComments = {};
 	Discussion.userComment($routeParams.userID).success(function (data){
 		vm.allUserComments = data;
+		vm.allUserComments.forEach(function (comment){
+			Discussion.getPost(comment.postID).success(function (post){
+				comment.postTitle = post.title;
+			});
+		});
 	});
+
+	vm.ratedCoursesObject = {};
+	Course.ratedCourses($routeParams.userID).success(function (data){
+		vm.ratedCoursesObject = data;
+		vm.ratedCoursesObject.forEach(function (course){
+			Course.getCourse(course.courseID).success(function (data){
+				course.courseName = data.courseName;
+				course.avgRating = data.courseRating;
+				course.courseLink = data.courseLink;
+			});
+		});
+	});
+
+	vm.userRating = {};
+	vm.rateClick = function(courseID, rating){
+		console.log("courseID: " + courseID + " Value: "+ rating);
+		vm.userRating.courseID = courseID;
+		vm.userRating.courseRating = rating;
+		console.log(vm.userRating);
+		Course.rate(courseID, vm.userRating);
+	}
 })
 
 .controller('navController', function($routeParams, User) {
@@ -358,7 +397,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		} else if ($routeParams.tab === "courses"){
 			vm.activeTab = "courses";
 		} else {
-			vm.activeTab = "posts";
+			vm.activeTab = "courses";
 		}
 	}
 });

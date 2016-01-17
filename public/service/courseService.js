@@ -57,5 +57,9 @@ angular.module('courseService', [])
 			return $http.put('/courses/' + id, object);
 		}
 
+		courses.ratedCourses = function(id){
+			return $http.get('/courses/ratedCourses/' + id);
+		}
+
 		return courses;
 	});
