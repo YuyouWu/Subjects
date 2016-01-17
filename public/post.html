@@ -1,5 +1,5 @@
 <div ng-controller = "discussionController as main">
-	<h1>{{main.currentSubject.subjectName}}</h1>
+	<h1><a href ="/subject/{{main.currentSubject.id}}">{{main.currentSubject.subjectName}}</a></h1>
 
 	<div class="well well-sm">
 	<h3>{{main.currentPost.title}}</h3>

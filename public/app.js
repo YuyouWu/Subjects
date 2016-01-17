@@ -269,6 +269,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 
 	//Create new comment
 	vm.newComment = {};
+	vm.newComment.subjectID = $routeParams.id;
 	vm.comment = function(){
 		Discussion.comment(vm.postID,vm.newComment).success(function (data){
 			//console.log(data);
@@ -323,6 +324,11 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.allUserPosts = {};
 	Discussion.userPost($routeParams.userID).success(function (data){
 		vm.allUserPosts = data;
+	});
+	//get all comment from user id
+	vm.allUserComments = {};
+	Discussion.userComment($routeParams.userID).success(function (data){
+		vm.allUserComments = data;
 	});
 })
 

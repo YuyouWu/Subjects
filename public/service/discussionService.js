@@ -55,5 +55,9 @@ angular.module('discussionService', [])
 			return $http.get('/allUserPost/' + id);
 		}
 
+		discussion.userComment = function (id){
+			return $http.get('/allUserComment/' + id);
+		}
+
 		return discussion;
 	});

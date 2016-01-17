@@ -442,12 +442,13 @@ app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
 //post a comment based on postID
 app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
 	var postID = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'content', 'userName');
+	var body = _.pick(req.body, 'content', 'userName', 'subjectID');
 	var attribute = {};
 	attribute.postID = postID;
 	attribute.userId = req.user.get('id');
 	attribute.userName = req.user.get('userName');
 	attribute.content = body.content;
+	attribute.subjectID = body.subjectID;
 
 	db.comment.create(attribute).then(function (post){
 		res.json(post.toJSON());
@@ -577,6 +578,21 @@ app.delete('/post/:id/', middleware.requireAuthentication, function(req, res) {
 			res.status(204).send();
 		}
 	}, function() {
+		res.status(500).send();
+	});
+});
+
+//Get all comment by user ID
+app.get('/allUserComment/:id', function(req, res){
+	var userID = parseInt(req.params.id, 10);
+	db.comment.findAll({
+		order: [['createdAt', 'DESC']],
+		where: {
+			userId: userID
+		}
+	}).then(function(post) {
+		res.json(post);
+	}, function(e) {
 		res.status(500).send();
 	});
 });

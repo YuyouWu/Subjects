@@ -14,6 +14,11 @@ module.exports = function (sequelize, DataTypes) {
 			allowNull:false
 		},
 
+		subjectID:{
+			type: DataTypes.INTEGER,
+			allowNull:false
+		},
+
 		userName:{
 			type: DataTypes.STRING
 		}
