@@ -310,7 +310,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	}
 })
 
-.controller('profileController' , function($routeParams, User){
+.controller('profileController' , function($routeParams, User, Discussion){
 	var vm = this;
 	if($routeParams.userID){
 		vm.userID = $routeParams.userID
@@ -318,6 +318,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			vm.userData = data;
 		});
 	}
+
+	//get all post from user id
+	vm.allUserPosts = {};
+	Discussion.userPost($routeParams.userID).success(function (data){
+		vm.allUserPosts = data;
+	});
 })
 
 .controller('navController', function($routeParams, User) {
@@ -345,6 +351,8 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			vm.activeTab = "comments";
 		} else if ($routeParams.tab === "courses"){
 			vm.activeTab = "courses";
+		} else {
+			vm.activeTab = "posts";
 		}
 	}
 });

@@ -516,6 +516,21 @@ app.put('/comment/:id/', middleware.requireAuthentication, function(req, res){
 	});
 });
 
+//Get all posts by user ID
+app.get('/allUserPost/:id', function(req, res){
+	var userID = parseInt(req.params.id, 10);
+	db.post.findAll({
+		order: [['createdAt', 'DESC']],
+		where: {
+			userId: userID
+		}
+	}).then(function(post) {
+		res.json(post);
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
 //Get post by subject id
 app.get('/allPost/:id/', function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
