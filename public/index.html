@@ -31,28 +31,35 @@
 	<!-- Login/Signup buttons -->
 	<!-- Drop down user menu -->
 	<!-- subject request -->
-	<div class="container-fluid btn-toolbar" ng-controller="userController as main"> 
-		<!-- Home buttons -->
-		<a class="btn btn-default navbar-btn navbar-left" href="/" role="button">Home</a>
-		<!-- Signup buttons -->
-		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#signupModal" >Sign up</button>
-		<!-- Login buttons -->
-		<button ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal">Log in</button>
+	<div class="container-fluid btn-toolbar" ng-controller="userController as main" style = "padding-top: 10px;"> 
 
-		<!-- Drop down user menu -->
-		<div class ="dropdown navbar-right" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()">
-			<button type="button" class="btn btn-default navbar-btn dropdown-toggle"  data-toggle="dropdown" aria-expanded="true"> 
-				<span class="glyphicon glyphicon-user"></span>
-					User 
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
-				<li><a href="/profile/{{main.currentUser.id}}">Profile</a></li>
-				<li><a href="/newSubject">Create subject</a></li>
-				<li role="separator" class="divider"></li>
-				<li><a ng-click = "main.logoutUser()">Log out</a></li>
-			</ul>
-		</div>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Syllabus</a>
+				</div>
+
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" data-toggle="modal" data-target="#signupModal"><a href="#">Sign up</a></li>
+						<li ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" data-toggle="modal" data-target="#loginModal"><a href="#">Log in</a></li>
+						<li class ="dropdown-toggle" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()" data-toggle="dropdown"> 
+							<a href="#">
+								{{main.currentUser.userName}} 
+								<span class="caret"></span> 
+							</a>
+						</li>
+						<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
+							<li><a href="/profile/{{main.currentUser.id}}">Profile</a></li>
+							<li><a href="/newSubject">Create subject</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href= "#" ng-click = "main.logoutUser()">Log out</a></li>
+						</ul>
+					</ul>
+				</div>
+			</div>
+		</nav>
 
 		<!-- Signup modal -->
 		<div id="signupModal" class="modal fade" role="dialog" tabindex="-1">
