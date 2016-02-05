@@ -578,7 +578,7 @@ app.get('/post/:id/', function(req, res) {
 	});
 });
 
-//Delete a post with POST ID
+//Delete a post ans associated comments with POST ID 
 app.delete('/post/:id/', middleware.requireAuthentication, function(req, res) {
 	var postID = parseInt(req.params.id, 10);
 	db.post.destroy({
@@ -592,7 +592,13 @@ app.delete('/post/:id/', middleware.requireAuthentication, function(req, res) {
 				error: 'No post with id.'
 			});
 		} else {
-			res.status(204).send();
+			db.comment.destroy({
+				where: {
+					postID: postID
+				}
+			}).then(function() {
+				res.status(204).send();
+			});
 		}
 	}, function() {
 		res.status(500).send();
