@@ -24,6 +24,11 @@ module.exports = function (sequelize, DataTypes) {
 		subjectID:{
 			type: DataTypes.INTEGER,
 			allowNull:false
+		},
+
+		commentDate:{
+			type: DataTypes.DATE(),
+			allowNull:false
 		}
 	});
 };

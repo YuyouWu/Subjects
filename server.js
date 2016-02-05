@@ -439,11 +439,14 @@ app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
 	var subjectID = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'title', 'content' , 'userName');
 	var attribute = {};
+	var d = new Date();
+
 	attribute.subjectID = subjectID;
 	attribute.userId = req.user.get('id');
 	attribute.userName = req.user.get('userName');
 	attribute.title = body.title;
 	attribute.content = body.content;
+	attribute.commentDate = d.toJSON(); //get current datetime in json
 
 	db.post.create(attribute).then(function (post){
 		//req.user.addPost(post). then(function (){
@@ -460,15 +463,33 @@ app.post('/post/:id/', middleware.requireAuthentication, function(req, res){
 app.post('/comment/:id', middleware.requireAuthentication, function(req, res){
 	var postID = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'content', 'userName', 'subjectID');
+	var d = new Date();
 	var attribute = {};
+	var postAttribute = {};
 	attribute.postID = postID;
 	attribute.userId = req.user.get('id');
 	attribute.userName = req.user.get('userName');
 	attribute.content = body.content;
 	attribute.subjectID = body.subjectID;
+	postAttribute.commentDate = d.toJSON(); //Update post commentDate for sorting
 
-	db.comment.create(attribute).then(function (post){
-		res.json(post.toJSON());
+	db.comment.create(attribute).then(function (comment){
+		db.post.findOne({
+			where: {
+				id: postID
+			}
+		}).then(function (post) {
+			if (post) {
+				//update post commentDate
+				post.update(postAttribute).then(function(post) {
+					res.json(post.toJSON());
+				}, function(e) {
+					res.status(400).json(e);
+				});
+			} else {
+				res.status(404).send();
+			}
+		});
 	}, function (e){
 		res.status(400).json(e);
 	});
@@ -553,7 +574,7 @@ app.get('/allUserPost/:id', function(req, res){
 app.get('/allPost/:id/', function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
 	db.post.findAll({
-		order: [['createdAt', 'DESC']],
+		order: [['commentDate', 'DESC']],
 		where: {
 			subjectID: subjectID
 		}
