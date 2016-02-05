@@ -237,7 +237,10 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 
 .controller('discussionController', function($routeParams, $window, Discussion, Subject, User, Auth) {
 	var vm = this;
-	vm.posts = {};
+	vm.currentPage = 1;
+	//number of post for each page
+	vm.pageSize = 10;
+	vm.posts = [];
 	//Get id param
 	if ($routeParams.id) {
 		vm.subjectID = $routeParams.id;
@@ -321,6 +324,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			$('#editCommentModal').modal('hide');
 			$window.location.reload();
 		});
+	}
+})
+
+.filter('startFrom', function(){
+	return function(data, start){
+		return data.slice(start);
 	}
 })
 

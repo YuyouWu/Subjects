@@ -3,7 +3,7 @@
 	<div>
 		<table class="table table-hover">
 			<tbody>
-				<tr ng-repeat="post in main.posts">
+				<tr ng-repeat="post in main.posts | startFrom:(main.currentPage - 1) * main.pageSize | limitTo: main.pageSize">
 					<td>
 						<p><b><a href="/discussion/{{main.subjectID}}/{{post.id}}">{{post.title}}</a></b></p>
 						<div>
@@ -14,6 +14,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<uib-pagination total-items="main.posts.length" ng-model="main.currentPage" items-per-page="main.pageSize"></pagination>
 	</div>
 </div>
 
