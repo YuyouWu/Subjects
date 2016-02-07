@@ -58,16 +58,21 @@ app.get('/subjects/:id', function(req, res) {
 	});
 });
 
-//Request subjects
+//Post subjects
 app.post('/subjects', middleware.requireAuthentication, function(req, res) {
 	var body = _.pick(req.body, 'subjectName');
-
-	//Post name in subjectReq table
-	db.subject.create(body).then(function(subject) {
-		res.json(subject.toJSON());
-	}, function(e) {
-		res.status(400).json(e);
-	});
+	var admin = Boolean(req.user.get('admin'));
+	//Post name in subject table
+	//Check if user is admin
+	if(admin === true){
+		db.subject.create(body).then(function(subject) {
+			res.json(subject.toJSON());
+		}, function(e) {
+			res.status(400).json(e);
+		});
+	} else {
+		res.status(400).send();
+	}
 });
 
 //Request subjects
@@ -82,25 +87,32 @@ app.post('/subjectsReq', middleware.requireAuthentication, function(req, res) {
 	});
 });
 
-//Delete subjects
-app.delete('/subjects/:id', function(req, res) {
+//Delete subject by id
+app.delete('/subjects/:id', middleware.requireAuthentication, function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
-	db.subject.destroy({
-		where: {
-			id: subjectID
-				//Add admin permission
-		}
-	}).then(function(rowsDeleted) {
-		if (rowsDeleted === 0) {
-			res.status(404).json({
-				error: 'No course with id.'
-			})
-		} else {
-			res.status(204).send();
-		}
-	}, function() {
-		res.status(500).send();
-	});
+	var admin = Boolean(req.user.get('admin'));
+	console.log("Checking type: " + typeof admin);
+	console.log(admin);
+	//If user is admin
+	if(admin === true){
+		db.subject.destroy({
+			where: {
+				id: subjectID
+			}
+		}).then(function(rowsDeleted) {
+			if (rowsDeleted === 0) {
+				res.status(404).json({
+					error: 'No course with id.'
+				})
+			} else {
+				res.status(204).send();
+			}
+		}, function() {
+			res.status(500).send();
+		});
+	} else {
+		res.status(400).send();
+	}
 });
 
 //COURSES API ======================
