@@ -52,11 +52,12 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 //Check if a user is logged in
 //Create new user
 //Login/Logout user
-.controller('userController', function(Subject, User, Auth, $window) {
+.controller('userController', function(Subject, User, Auth, $window, $scope) {
 	var vm = this;
 
 	vm.userData = {};
 	vm.userData.email = "";
+	vm.userData.userName = "";
 	vm.userData.password = "";
 	vm.userData.confirmPassword = "";
 
@@ -69,20 +70,65 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		}
 	}
 
+	//closing alert
+	vm.closeAlert = function(index) {
+		vm.alerts.splice(index, 1);
+	};
+
 	//Create new user
 	vm.createUser = function() {
-		if (vm.userData.password === vm.userData.confirmPassword) {
-			User.create(vm.userData).success(function(data) {
-				//Clear userData
-				vm.userData.email = "";
-				vm.userData.password = "";
-				vm.userData.confirmPassword = "";
-				//hide modal
-				$('#signupModal').modal('hide');
+		//Declare and clear alert array
+		vm.alerts = [];
+
+		//Check user input
+		function checkUser(userData) {
+			var continueRegister = true;
+			return new Promise(function (resolve,reject){
+				//Check passwords match
+				if (vm.userData.password !== vm.userData.confirmPassword) {
+					continueRegister = false;
+					vm.alerts.push({type: 'danger', msg: 'Passwords are not matching.'});
+				}
+				
+				//Check passwords length
+				if (vm.userData.password.length < 7){
+					console.log(vm.userData.password.length);
+					continueRegister = false;
+					vm.alerts.push({type: 'danger', msg: 'Password must have at least 7 characters.'});
+				}
+
+				//Check email
+				User.checkEmail(vm.userData.email).success(function(emailData){
+					if (vm.userData.email === emailData.email){
+						continueRegister = false;
+						vm.alerts.push({type: 'danger', msg: 'This email is already registered.'});
+					}
+				}).then(function (){
+					//Check userName
+					User.checkUserName(vm.userData.userName).success(function(userNamedata){
+						if (vm.userData.userName === userNamedata.userName){
+							continueRegister = false;
+							vm.alerts.push({type: 'danger', msg: 'Username is taken.'});
+						}
+						//resolve after checking all input
+						resolve(continueRegister);
+					});
+				});
 			});
-		} else {
-			console.log("Not matching password.");
 		}
+
+		checkUser().then(function (data){
+			if (data === true){
+				User.create(vm.userData).success(function(data) {
+					//Clear userData
+					vm.userData.email = "";
+					vm.userData.password = "";
+					vm.userData.confirmPassword = "";
+					//hide modal
+					$('#signupModal').modal('hide');
+				});
+			}
+		});
 	}
 
 	//Login user

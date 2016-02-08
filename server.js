@@ -443,6 +443,69 @@ app.get('/users/:id', function(req, res){
 	});
 });
 
+//Check for existng userName 
+app.get('/userNameCheck/:userName', function(req, res){
+	var userName = req.params.userName;
+	db.user.findOne({
+		where: {
+			userName: userName
+		}
+	}).then(function (user){
+		if (!!user) {
+			//get existing userName if exist
+			res.json(user.toJSON());
+		} else {
+			res.json("null");
+		}
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Check for existng email address 
+app.get('/emailCheck/:email', function(req, res){
+	var email = req.params.email;
+	db.user.findOne({
+		where: {
+			email: email
+		}
+	}).then(function (user){
+		if (!!user) {
+			//get existing userName if exist
+			res.json(user.toJSON());
+		} else {
+			res.json("null");
+		}
+	}, function(e) {
+		res.status(500).send();
+	});
+});
+
+//Set new user as new admin with user ID
+//Must be called by current admin
+app.put('/admin/:id', middleware.requireAuthentication, function(req,res){
+	var userID = parseInt(req.params.id, 10);;
+	var admin = Boolean(req.user.get('admin'));
+	var attribute = {};
+	attribute.admin = Boolean("true");
+	//Check if user is admin
+	if(admin === true){
+		db.user.findById(userID).then(function(user) {
+			if (user) {
+				user.update(attribute).then(function(user) {
+					res.json(user.toJSON());
+				}, function(e) {
+					res.status(400).json(e);
+				});
+			} else {
+				res.status(404).send();
+			}
+		});
+	}else{
+		res.status(400).send();
+	}
+});
+
 //DISCUSSIOON API ==================
 //==================================
 

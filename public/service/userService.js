@@ -19,5 +19,13 @@ angular.module('userService',[])
 		return $http.get('/users/' + id);
 	}
 
+	users.checkUserName = function (userName){
+		return $http.get('/userNameCheck/' + userName);
+	}
+
+	users.checkEmail = function (email){
+		return $http.get('/emailCheck/' + email);
+	}
+
 	return users;
 });
