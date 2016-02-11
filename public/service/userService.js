@@ -27,5 +27,9 @@ angular.module('userService',[])
 		return $http.get('/emailCheck/' + email);
 	}
 
+	users.editPassword = function (userData){
+		return $http.put ('/users/password/', userData);
+	}
+
 	return users;
 });

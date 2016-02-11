@@ -70,6 +70,22 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		}
 	}
 
+	//Get info for current user
+	if (Auth.isLoggedIn()) {
+		//get current user data
+		vm.currentUser = {};
+		vm.tempData = {};
+		User.getCurrentUser().success(function (user){
+			vm.currentUser = user;
+
+			//temp data for changing password
+			vm.tempData.email = vm.currentUser.email;
+			vm.tempData.password = "";
+			vm.tempData.newPassword = "";
+			vm.tempData.confirmNewPassword = "";
+		});
+	} 
+
 	//closing alert
 	vm.closeAlert = function(index) {
 		vm.alerts.splice(index, 1);
@@ -124,8 +140,13 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 					vm.userData.email = "";
 					vm.userData.password = "";
 					vm.userData.confirmPassword = "";
-					//hide modal
-					$('#signupModal').modal('hide');
+					//Display alert hide modal
+					vm.alerts = [];
+					vm.alerts.push({type: 'success', msg: 'Registration is successful. Page will refresh shortly.'});
+					setTimeout(function () {
+						$('#signupModal').modal('hide');
+						$window.location.reload();
+					}, 5000);
 				});
 			}
 		});
@@ -150,15 +171,28 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			$window.location.reload();
 		});
 	}
-
-
-	if (Auth.isLoggedIn()) {
-		//get current user data
-		vm.currentUser = {};
-		User.getCurrentUser().success(function (user){
-			vm.currentUser = user;
-		});
-	} 
+	
+	//Change user password
+	vm.editPassword = function(){
+		vm.alerts = [];
+		if (vm.tempData.newPassword === vm.tempData.confirmNewPassword && vm.tempData.password !== vm.tempData.newPassword){
+			User.editPassword(vm.tempData).success(function(data){
+				console.log("Password Changed");
+				vm.alerts = [];
+				vm.alerts.push({type: 'success', msg: 'Password changed. Page will refresh shortly.'});
+				setTimeout(function () {
+					$('#changePassword').modal('hide');
+					$window.location.reload();
+				}, 5000);
+			});
+		}
+		if (vm.tempData.newPassword !== vm.tempData.confirmNewPassword){
+			vm.alerts.push({type: 'danger', msg: 'New passwords are not matching.'});
+		}
+		if (vm.tempData.password === vm.tempData.newPassword){
+			vm.alerts.push({type: 'danger', msg: 'New password and current password are the same.'});
+		}
+	}
 })
 
 .controller('courseController', function($routeParams, Subject, Course, Auth) {

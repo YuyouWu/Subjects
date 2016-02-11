@@ -5,6 +5,7 @@ var path = require('path');
 var db = require('./db.js');
 var bodyParser = require('body-parser');
 var middleware = require('./middleware.js')(db);
+var bcrypt = require ('bcryptjs');
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -478,6 +479,37 @@ app.get('/emailCheck/:email', function(req, res){
 		}
 	}, function(e) {
 		res.status(500).send();
+	});
+});
+
+//Edit password
+app.put('/users/password/', middleware.requireAuthentication, function(req, res){
+	var userID = req.user.get('id');
+	var body = _.pick(req.body, 'email','password');
+
+	//new password salt
+	var salt = bcrypt.genSaltSync(10);
+	//new hashedPassword based on new salt
+	var hashedPassword = bcrypt.hashSync(req.body.newPassword, salt);
+
+	//store values in temp attribute
+	var attribute = {};
+	attribute.salt = salt;
+	attribute.password_hash = hashedPassword;
+	//first authenticate
+	db.user.authenticate(body).then(function (){
+		//then change password
+		db.user.findById(userID).then(function (user){
+			if (user) {
+				user.update(attribute).then(function(user) {
+					res.json(user.toJSON());
+				}, function(e) {
+					res.status(400).json(e);
+				});
+			} else {
+				res.status(404).send();
+			}
+		});
 	});
 });
 

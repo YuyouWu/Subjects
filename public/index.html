@@ -33,6 +33,7 @@
 	<!-- subject request -->
 	<div class="container-fluid btn-toolbar" ng-controller="userController as main" style = "padding-top: 10px;"> 
 
+		<!-- Nav Bar -->
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -53,6 +54,7 @@
 						<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
 							<li><a href="/profile/{{main.currentUser.id}}">Profile</a></li>
 							<li><a href="/newSubject">Create subject</a></li>
+							<li><a href="/setting">Settings</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href= "#" ng-click = "main.logoutUser()">Log out</a></li>
 						</ul>
@@ -123,11 +125,11 @@
 						<form name="login_form">
 							<div class="form-group container-fluid">
 								<label for="email" class="control-label">Email:</label>
-								<input type="text" name = "email" class="form-control" ng-model="main.userData.email" placeholder="Email">
+								<input type="text" name = "email" id="email" class="form-control" ng-model="main.userData.email" placeholder="Email">
 							</div>
 							<div class="form-group container-fluid">
 								<label class="control-label">Password:</label>
-								<input type="password" name = "password" class="form-control" ng-model="main.userData.password" placeholder="Password">
+								<input type="password" name = "password" id="password" class="form-control" ng-model="main.userData.password" placeholder="Password">
 							</div>
 						</form>
 					</div>
@@ -139,6 +141,7 @@
 		</div>
 	</div>
 
+	<!-- views -->
 	<main>
 		<div ng-view></div>
 	</main>

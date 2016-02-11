@@ -1,0 +1,61 @@
+<div class = "container">
+	<h2>General Account Settings</h2>
+
+	<table class="table">
+		<tr>
+			<td><b>Email</b></td>
+			<td>{{main.currentUser.email}}</td>
+		</tr>
+		<tr>
+			<td><b>Username</b></td>
+			<td>{{main.currentUser.userName}}</td>
+		</tr>
+		<tr>
+			<td><b>Password</b></td>
+			<td data-toggle="modal" data-target="#changePassword"><a href="#">Change Password</a></td>
+		</tr>
+	</table>
+
+	<div id="changePassword" class="modal fade" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">X</button>
+						<h4>Change Password</h4>
+					</div>
+
+					<div class="modal-body">
+
+						<!-- Alert -->
+						<div>
+							<script type="text/ng-template" id="alert.html">
+							<div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+							<div ng-transclude></div>
+							</div>
+							</script>
+
+							<uib-alert ng-repeat="alert in main.alerts" type="{{alert.type}}" close="main.closeAlert($index)">{{alert.msg}}</uib-alert>
+						</div>
+
+						<form name="signup_form">
+							<div class="form-group container-fluid">
+								<label class="control-label">Current Password:</label>
+								<input type="password" class="form-control" ng-model="main.tempData.password">
+							</div>
+							<div class="form-group container-fluid">
+								<label class="control-label">New Password:</label>
+								<input type="password" class="form-control" ng-model="main.tempData.newPassword">
+							</div>
+							<div class="form-group container-fluid">
+								<label class="control-label">Confirm New Password:</label>
+								<input type="password" class="form-control" ng-model="main.tempData.confirmNewPassword"> 
+							</div>
+						</form>
+					</div>
+					<div class = "modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="main.editPassword()">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

@@ -26,6 +26,10 @@ angular.module('appRouter', ['ngRoute'])
 				controllerAs: 'main'
 			}).when('/profile/:userID/:tab', {
 				templateUrl: '/profile.html'
+			}).when('/setting/', {
+				templateUrl: '/setting.html',
+				controller: 'userController',
+				controllerAs: 'main'
 			});
 
 		$locationProvider.html5Mode(true);
