@@ -6,6 +6,7 @@ var db = require('./db.js');
 var bodyParser = require('body-parser');
 var middleware = require('./middleware.js')(db);
 var bcrypt = require ('bcryptjs');
+var sendgrid = require ('sendgrid')(process.env.API);
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -513,10 +514,54 @@ app.put('/users/password/', middleware.requireAuthentication, function(req, res)
 	});
 });
 
+//Send random password to users who forgot their password
+app.put('/password/random/', function(req,res){
+	var body = _.pick(req.body, 'email');
+	//generate a random password
+	var newPassword = Math.random().toString(36).replace(/[^a-zA-Z0-9]+/g, '').substr(1, 8);
+	//new password salt
+	var salt = bcrypt.genSaltSync(10);
+	//new hashedPassword based on new salt
+	var hashedPassword = bcrypt.hashSync(newPassword, salt);
+	var attribute = {};
+	attribute.salt = salt;
+	attribute.password_hash = hashedPassword;
+	
+	//send email through sendgrid with generated password
+	sendgrid.send({
+		to:       body.email,
+		from:     'no_reply@syllabus.com',
+		subject:  'Temporary password for Syllabus account.',
+		text:     'Your temporary password for Syllabus is: ' + newPassword + '. Please reset your password in account settings.'
+	}, function (err, json){
+		if(err){
+			return console.error(err);
+		}
+		console.log(json);
+	});
+
+	//find user by email, then change password.
+	db.user.findOne({
+		where: {
+			email: body.email
+		}
+	}).then(function (user){
+		if (user) {
+			user.update(attribute).then(function(user) {
+				res.json(user.toJSON());
+			}, function(e) {
+				res.status(400).json(e);
+			});
+		} else {
+			res.status(404).send();
+		}
+	});
+});
+
 //Set new user as new admin with user ID
 //Must be called by current admin
 app.put('/admin/:id', middleware.requireAuthentication, function(req,res){
-	var userID = parseInt(req.params.id, 10);;
+	var userID = parseInt(req.params.id, 10);
 	var admin = Boolean(req.user.get('admin'));
 	var attribute = {};
 	attribute.admin = Boolean("true");

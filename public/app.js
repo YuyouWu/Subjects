@@ -162,6 +162,9 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			//hide modal
 			$('#loginModal').modal('hide');
 			$window.location.reload();
+		}).error (function(data){
+			vm.alerts = [];
+			vm.alerts.push({type: 'danger', msg: 'Username or password incorrect.'});
 		});
 	}
 
@@ -192,6 +195,16 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		if (vm.tempData.password === vm.tempData.newPassword){
 			vm.alerts.push({type: 'danger', msg: 'New password and current password are the same.'});
 		}
+	}
+
+	vm.tempUserData = {};
+	vm.forgotPassword = function(){
+		vm.alerts = [];
+		User.forgotPassword(vm.tempUserData).success(function(data){
+			vm.alerts.push({type: 'success', msg: 'Temporary password has been sent.'});
+		}).error(function(data){
+			vm.alerts.push({type: 'danger', msg: 'No user found with this email address.'});
+		});
 	}
 })
 
@@ -463,6 +476,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 .controller('navController', function($routeParams, User) {
 	var vm = this;
 	//Get id param
+	//Subject
 	if ($routeParams.id) {
 		vm.subjectID = $routeParams.id;
 		//Get tab param
@@ -472,6 +486,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 			vm.activeTab = "Courses";
 		}
 	}
+	//Profile
 	if ($routeParams.userID) {
 		vm.userID = $routeParams.userID;
 
@@ -480,13 +495,35 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		});
 		//Get tab param
 		if ($routeParams.tab === "posts"){
-			vm.activeTab = "posts"
+			vm.activeTab = "posts";
 		} else if ($routeParams.tab === "comments"){
 			vm.activeTab = "comments";
 		} else if ($routeParams.tab === "courses"){
 			vm.activeTab = "courses";
 		} else {
 			vm.activeTab = "courses";
+		}
+	}
+	//Help
+	if ($routeParams.helpTab) {
+		if ($routeParams.helpTab === "faq"){
+			vm.activeTab = "faq";
+		} else if ($routeParams.helpTab === "contact"){
+			vm.activeTab = "contact";
+		} else {
+			vm.activeTab = "faq";
+		}
+	}
+	//About
+	if ($routeParams.aboutTab) {
+		if ($routeParams.aboutTab === "about"){
+			vm.activeTab = "about";
+		} else if ($routeParams.aboutTab === "terms"){
+			vm.activeTab = "terms";
+		} else if ($routeParams.aboutTab === "privacy"){
+			vm.activeTab = "privacy";
+		} else {
+			vm.activeTab = "about";
 		}
 	}
 });

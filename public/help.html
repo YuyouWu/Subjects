@@ -1,0 +1,25 @@
+<div class = "container-fluid">
+	<h1>Help</h1>
+
+	<hr>
+
+	<div ng-controller = "navController as main">
+		<ul class = "nav nav-pills nav-stacked col-md-2">
+			<li ng-class = "{active: main.activeTab == 'faq'}"><a href="/help/faq">FAQ</a></li>
+			<li ng-class = "{active: main.activeTab == 'contact'}" ><a href="/help/contact">Contact</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div ng-switch="main.activeTab">
+				<div ng-switch-when='faq'>
+					<div ng-include = '"./help-view/faq.html"'>
+					</div>
+				</div>
+				<div ng-switch-when='contact'> 
+					<div ng-include = '"./help-view/contact.html"'>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

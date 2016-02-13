@@ -31,5 +31,9 @@ angular.module('userService',[])
 		return $http.put ('/users/password/', userData);
 	}
 
+	users.forgotPassword = function (data){
+		return $http.put ('/password/random/', data);
+	}
+
 	return users;
 });

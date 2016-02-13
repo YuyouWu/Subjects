@@ -30,6 +30,12 @@ angular.module('appRouter', ['ngRoute'])
 				templateUrl: '/setting.html',
 				controller: 'userController',
 				controllerAs: 'main'
+			}).when('/forgotPassword/', {
+				templateUrl: '/forgotPassword.html'
+			}).when('/help/:helpTab', {
+				templateUrl: '/help.html'
+			}).when('/about/:aboutTab', {
+				templateUrl: '/about.html'
 			});
 
 		$locationProvider.html5Mode(true);
