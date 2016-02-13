@@ -34,7 +34,6 @@ db.Sequalize = Sequalize;
 db.subject.hasMany(db.course);
 //subject request
 db.user.hasMany(db.subjectReq);
-db.subjectReq.belongsTo(db.user);
 //courseRating
 db.user.hasMany(db.courseRating);
 db.courseRating.belongsTo(db.user);

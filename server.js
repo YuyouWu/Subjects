@@ -36,6 +36,10 @@ app.get('/subjects', function(req, res) {
 		};
 	}
 
+	if (query.hasOwnProperty('c') && query.c.length > 0) {
+		where.category = query.c;
+	}
+
 	db.subject.findAll({
 		where: where
 	}).then(function(subject) {
@@ -60,9 +64,10 @@ app.get('/subjects/:id', function(req, res) {
 	});
 });
 
-//Post subjects
+
+//Create subjects
 app.post('/subjects', middleware.requireAuthentication, function(req, res) {
-	var body = _.pick(req.body, 'subjectName');
+	var body = _.pick(req.body, 'subjectName','category');
 	var admin = Boolean(req.user.get('admin'));
 	//Post name in subject table
 	//Check if user is admin
@@ -79,7 +84,7 @@ app.post('/subjects', middleware.requireAuthentication, function(req, res) {
 
 //Request subjects
 app.post('/subjectsReq', middleware.requireAuthentication, function(req, res) {
-	var body = _.pick(req.body, 'subjectNameReq');
+	var body = _.pick(req.body, 'subjectNameReq' , 'category');
 
 	//Post name in subjectReq table
 	db.subjectReq.create(body).then(function(subject) {

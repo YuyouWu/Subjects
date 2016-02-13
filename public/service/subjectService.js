@@ -13,6 +13,11 @@ angular.module('subjectService',[])
 		return $http.get('/subjects?q=' + searchKey);
 	}
 
+	//search subject by category
+	subjects.category = function (category){
+		return $http.get('/subjects?c=' + category);
+	}
+
 	//get subject by ID
 	subjects.getSubject = function (id){
 		return $http.get('/subjects/' + id);

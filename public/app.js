@@ -14,6 +14,20 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 		vm.subjectData = data;
 	});
 
+	vm.all = function (){
+		Subject.all().success(function(data) {
+			vm.subjectData = data;
+		});
+	}
+
+	//Display subject based on category
+	vm.category;
+	vm.pickCategory = function (category){
+		Subject.category(category).success(function(data){
+			vm.subjectData = data;
+		});
+	}
+
 	//Search for subject by name at index page
 	vm.searchKey = "";
 	vm.searchSubject = function() {
@@ -26,15 +40,19 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.newSubject = {};
 	vm.newSubject.subjectNameReq = "";
 	vm.newSubject.message = "";
+	vm.newSubject.category = "";
 	vm.requestSubject = function() {
-		console.log(vm.newSubject.subjectNameReq);
-		Subject.create(vm.newSubject).success(function(data) {
-			console.log(data);
-			vm.newSubject.message = "New subject request has been submitted. "
-		}).error(function(e) {
-			console.log(e);
-			vm.newSubject.message = "Error. Check if your subject name is the same with any existing subjects."
-		});
+		if (vm.newSubject.category.length < 1){
+			vm.newSubject.message = "Please select a category."
+		} else {
+			Subject.create(vm.newSubject).success(function(data) {
+				console.log(data);
+				vm.newSubject.message = "New subject request has been submitted."
+			}).error(function(e) {
+				console.log(e);
+				vm.newSubject.message = "Error. Check if your subject name is the same with any existing subjects."
+			});
+		}
 	}
 
 	//Get subject by ID

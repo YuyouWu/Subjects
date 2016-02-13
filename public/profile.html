@@ -3,13 +3,13 @@
 
 	<hr>
 	<div ng-controller = "navController as main">
-		<ul class = "nav nav-pills nav-stacked col-md-2">
+		<ul class = "nav nav-pills nav-stacked col-xs-3 col-md-2">
 			<li ng-class = "{active: main.activeTab == 'courses'}"><a href="/profile/{{main.userID}}/courses">Rated Courses</a></li>
 			<li ng-class = "{active: main.activeTab == 'posts'}" ><a href="/profile/{{main.userID}}/posts">Posts</a></li>
 			<li ng-class = "{active: main.activeTab == 'comments'}"><a href="/profile/{{main.userID}}/comments">Comments</a></li>
 		</ul>
 
-		<div class="tab-content">
+		<div class="tab-content col-xs-offset-3 col-md-offset-2">
 			<div ng-switch="main.activeTab">
 				<div ng-switch-when='posts'>
 					<div ng-include = '"./profile-view/profile-posts.html"'>

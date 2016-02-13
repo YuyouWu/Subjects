@@ -7,7 +7,10 @@ module.exports = function (sequelize, DataTypes) {
 			validate:{
 				notEmpty: true
 			}
+		},
+		category: {
+			type: DataTypes.STRING,
+			allowNull:false
 		}
-		//Add categories for courses
 	});
 };

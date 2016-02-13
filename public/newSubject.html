@@ -12,7 +12,21 @@
 				<h2 class="center-text">New Subject Request</h2>
 				<p class="p-width">Please check existing subjects before requesting a new one. New subject request will be under review for under 48 hours.</p>
 
-				<input type ="text" class="form-control" placeholder="Subject Name" ng-model="main.newSubject.subjectNameReq">
+				<input type ="text" class="form-control" placeholder="Subject Name" ng-model="main.newSubject.subjectNameReq" >
+				<div style="padding-top:10px">
+					<select class="form-control" ng-model="main.newSubject.category">
+						<option value="">Categories:</option>
+						<option value="Development">Development</option>
+						<option value="Business">Business</option>
+						<option value="Design">Design</option>
+						<option value="Photography">Photography</option>
+						<option value="Video">Video</option>
+						<option value="3D">3D</option>
+						<option value="Music">Music</option>
+						<option value="Academics">Academics</option>
+					</select>
+				</div>
+
 
 				<div class = "center-text" style="padding-top:10px">
 					<button class="btn btn-primary" ng-click="main.requestSubject()"> Request </button>
