@@ -31,11 +31,11 @@
 	<!-- Login/Signup buttons -->
 	<!-- Drop down user menu -->
 	<!-- subject request -->
-	<div class="container-fluid btn-toolbar" ng-controller="userController as main" style = "padding-top: 10px;"> 
+	<div ng-controller="userController as main" style = "padding-top: 10px;"> 
 
 		<!-- Nav Bar -->
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/">Syllabus</a>
@@ -47,19 +47,19 @@
 						<li><a href="/help/faq">Help</a></li>
 						<li ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" data-toggle="modal" data-target="#signupModal"><a href="#">Sign up</a></li>
 						<li ng-hide = "main.isLoggedIn()" ng-show = "!main.isLoggedIn()" data-toggle="modal" data-target="#loginModal"><a href="#">Log in</a></li>
-						<li class ="dropdown-toggle" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()" data-toggle="dropdown"> 
-							<a href="#">
+						<li class ="dropdown" ng-show = "main.isLoggedIn()" ng-hide = "!main.isLoggedIn()"> 
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								{{main.currentUser.userName}} 
 								<span class="caret"></span> 
 							</a>
+							<ul class="dropdown-menu">
+								<li><a href="/profile/{{main.currentUser.id}}">Profile</a></li>
+								<li><a href="/newSubject">Request Subject</a></li>
+								<li><a href="/setting">Settings</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href= "#" ng-click = "main.logoutUser()">Log out</a></li>
+							</ul>
 						</li>
-						<ul class="dropdown-menu" aria-labelledby ="dropdownMenu1">
-							<li><a href="/profile/{{main.currentUser.id}}">Profile</a></li>
-							<li><a href="/newSubject">Request Subject</a></li>
-							<li><a href="/setting">Settings</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href= "#" ng-click = "main.logoutUser()">Log out</a></li>
-						</ul>
 					</ul>
 				</div>
 			</div>
@@ -162,7 +162,7 @@
 	</div>
 
 	<!-- views -->
-	<main>
+	<main style = "padding-top: 70px;">
 		<div ng-view></div>
 	</main>
 </body>
