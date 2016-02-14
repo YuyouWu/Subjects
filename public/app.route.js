@@ -3,40 +3,42 @@ angular.module('appRouter', ['ngRoute'])
 		$httpProvider.interceptors.push('AuthInterceptor');
 		$routeProvider
 			.when('/', {
-				templateUrl: '/home.html',
+				templateUrl: '/views/home.html',
 				controller: 'subjectController',
 				controllerAs: 'main'
 			}).when('/newSubject', {
-				templateUrl: '/newSubject.html',
+				templateUrl: '/views/newSubject.html',
 				controller: 'subjectController',
 				controllerAs: 'main'
 			}).when('/subject/:id', {
-				templateUrl: '/subject.html',
+				templateUrl: '/views/subject.html',
 				controller: 'courseController',
 				controllerAs: 'main'
 			}).when('/subject/:id/:tab', {
-				templateUrl: '/subject.html'
+				templateUrl: '/views/subject.html'
 			}).when('/discussion/:id/:postID', {
-				templateUrl: '/post.html',
+				templateUrl: '/views/post.html',
 				controller: 'discussionController',
 				controllerAs: 'main'
 			}).when('/profile/:userID', {
-				templateUrl: '/profile.html',
+				templateUrl: '/views/profile.html',
 				controller: 'profileController',
 				controllerAs: 'main'
 			}).when('/profile/:userID/:tab', {
-				templateUrl: '/profile.html'
+				templateUrl: '/views/profile.html'
 			}).when('/setting/', {
-				templateUrl: '/setting.html',
+				templateUrl: '/views/setting.html',
 				controller: 'userController',
 				controllerAs: 'main'
 			}).when('/forgotPassword/', {
-				templateUrl: '/forgotPassword.html'
+				templateUrl: '/views/forgotPassword.html'
 			}).when('/help/:helpTab', {
-				templateUrl: '/help.html'
+				templateUrl: '/views/help.html'
 			}).when('/about/:aboutTab', {
-				templateUrl: '/about.html'
-			});
+				templateUrl: '/views/about.html'
+			}).when('/404', {
+				templateUrl: '/views/404.html'
+			}).otherwise({ redirectTo: '/404' });
 
 		$locationProvider.html5Mode(true);
 	})

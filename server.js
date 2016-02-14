@@ -850,7 +850,7 @@ app.delete('/comment/:id/', middleware.requireAuthentication, function(req, res)
 
 //Send index html when request from browser
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
+	res.sendFile(path.join(__dirname + '/public/views/index.html'));
 });
 
 //Sync data to database
