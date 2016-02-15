@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
 		},
 		admin:{
 			type: DataTypes.BOOLEAN,
-			defaultValue: false
+			defaultValue: true
 		},
 		//salt: random character at the end of string before hashing
 		salt: {
