@@ -1,6 +1,10 @@
 {
   "name": "Syllabus",
   "version": "1.0.0",
+  "engines": {
+    "node": "4.2.2",
+    "npm": "3.7.2"
+  },
   "description": "Aggregation of study materials for any subjects",
   "main": "server.js",
   "scripts": {
