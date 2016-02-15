@@ -113,7 +113,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 	vm.createUser = function() {
 		//Declare and clear alert array
 		vm.alerts = [];
-
+		vm.userData.userName = vm.userData.userName.toLowerCase();
 		//Check user input
 		function checkUser(userData) {
 			var continueRegister = true;
@@ -158,6 +158,7 @@ angular.module('syllabus', ['subjectService', 'courseService', 'discussionServic
 					vm.userData.email = "";
 					vm.userData.password = "";
 					vm.userData.confirmPassword = "";
+					vm.userData.userName = "";
 					//Display alert hide modal
 					vm.alerts = [];
 					vm.alerts.push({type: 'success', msg: 'Registration is successful. Page will refresh shortly.'});
