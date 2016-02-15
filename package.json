@@ -1,5 +1,5 @@
 {
-  "name": "subject",
+  "name": "Syllabus",
   "version": "1.0.0",
   "description": "Aggregation of study materials for any subjects",
   "main": "server.js",
