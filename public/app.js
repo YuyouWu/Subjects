@@ -1,4 +1,4 @@
-angular.module('syllabus', ['subjectService', 'courseService', 'discussionService', 'userService', 'authService', 'appRouter', 'ui.bootstrap'])
+angular.module('aucademy', ['subjectService', 'courseService', 'discussionService', 'userService', 'authService', 'appRouter', 'ui.bootstrap'])
 
 //Display subject on index.html
 //Execute query for searching subject name

@@ -535,9 +535,9 @@ app.put('/password/random/', function(req,res){
 	//send email through sendgrid with generated password
 	sendgrid.send({
 		to:       body.email,
-		from:     'no_reply@syllabus.com',
-		subject:  'Temporary password for Syllabus account.',
-		text:     'Your temporary password for Syllabus is: ' + newPassword + '. Please reset your password in account settings.'
+		from:     'no_reply@aucademy.com',
+		subject:  'Temporary password for Aucademy account.',
+		text:     'Your temporary password for Aucademy is: ' + newPassword + '. Please reset your password in account settings.'
 	}, function (err, json){
 		if(err){
 			return console.error(err);
