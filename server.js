@@ -41,6 +41,7 @@ app.get('/subjects', function(req, res) {
 	}
 
 	db.subject.findAll({
+		order: [['subjectName', 'ASC']],
 		where: where
 	}).then(function(subject) {
 		res.json(subject);
