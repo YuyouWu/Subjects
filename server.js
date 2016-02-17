@@ -99,8 +99,6 @@ app.post('/subjectsReq', middleware.requireAuthentication, function(req, res) {
 app.delete('/subjects/:id', middleware.requireAuthentication, function(req, res) {
 	var subjectID = parseInt(req.params.id, 10);
 	var admin = Boolean(req.user.get('admin'));
-	console.log("Checking type: " + typeof admin);
-	console.log(admin);
 	//If user is admin
 	if(admin === true){
 		db.subject.destroy({
@@ -421,6 +419,25 @@ app.delete('/users/logout', middleware.requireAuthentication, function(req, res)
 	}).catch(function() {
 		res.status(500).send();
 	});
+});
+
+//Get all users. Need Admin. 
+app.get('/users/', middleware.requireAuthentication, function(req, res){
+	var admin = Boolean(req.user.get('admin'));
+	//If user is admin
+	if(admin === true){
+		db.user.findAll().then(function(user) {
+			if (!!user) {
+				res.json(user);
+			} else {
+				res.status(404).send();
+			}
+		}, function() {
+			res.status(500).send();
+		});
+	} else {
+		res.status(400).send();
+	}
 });
 
 //Get current user
